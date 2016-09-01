@@ -1,0 +1,2 @@
+# Cubik
+Rubik's cube
