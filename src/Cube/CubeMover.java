@@ -23,21 +23,33 @@ public class CubeMover {
     }
 
     static Cube rotate1(Cube cube){
-        return new Cube(cube);
+        Cube tmp = new  Cube(cube);
+        tmp.rotate1();
+        return  tmp;
     }
     static Cube rotate2(Cube cube){
-        return new Cube(cube);
+        Cube tmp = new  Cube(cube);
+        tmp.rotate2();
+        return  tmp;
     }
     static Cube rotate3(Cube cube){
-        return new Cube(cube);
+        Cube tmp = new  Cube(cube);
+        tmp.rotate3();
+        return  tmp;
     }
     static Cube rotate4(Cube cube){
-        return new Cube(cube);
+        Cube tmp = new  Cube(cube);
+        tmp.rotate4();
+        return  tmp;
     }
     static Cube rotate5(Cube cube){
-        return new Cube(cube);
+        Cube tmp = new  Cube(cube);
+        tmp.rotate5();
+        return  tmp;
     }
     static Cube rotate6(Cube cube){
-        return new Cube(cube);
+        Cube tmp = new  Cube(cube);
+        tmp.rotate6();
+        return  tmp;
     }
 }

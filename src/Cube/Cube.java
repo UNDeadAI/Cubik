@@ -11,11 +11,9 @@ public class Cube {
     int[][] left = new int[3][3];
     int[][] right = new int[3][3];
 
-    public Cube()
-    {
+    public Cube() {
         for(int i = 0; i < 3; i++){
-            for(int j = 0; j < 3; j++)
-            {
+            for(int j = 0; j < 3; j++) {
                 front[i][j] = 1;
                 back[i][j] = 2;
                 top[i][j] = 3;
@@ -26,7 +24,40 @@ public class Cube {
         }
     }
 
-    private void rotateFaceRight(int[][] M){
+    public Cube(Cube cube) {
+        for(int i = 0; i < 3; i++)
+            for(int j = 0; j < 3; j++) {
+                front[i][j] = cube.front[i][j];
+                back[i][j] = cube.back[i][j];
+                top[i][j] = cube.top[i][j];
+                bottom[i][j] = cube.bottom[i][j];
+                left[i][j] = cube.left[i][j];
+                right[i][j] = cube.right[i][j];
+            }
+    }
+
+    public boolean isOk() {
+        for (int i = 0; i < 3; i++){
+            for (int j = 0; j < 3; j++) {
+                if(front[i][j] != CubeMover.frontOk[i][j])
+                    return false;
+                if(back[i][j] != CubeMover.backOk[i][j])
+                    return false;
+                if(top[i][j] != CubeMover.topOk[i][j])
+                    return false;
+                if(bottom[i][j] != CubeMover.bottomOk[i][j])
+                    return false;
+                if(left[i][j] != CubeMover.leftOk[i][j])
+                    return false;
+                if(right[i][j] != CubeMover.rightOk[i][j])
+                    return false;
+            }
+        }
+        return true;
+    }
+
+
+    public void rotateFaceRight(int[][] M){
         int [][] aux = new int[M.length][];
         int k = 0, l = 0;
         for(int i = 0; i < M.length; i++)
@@ -41,7 +72,7 @@ public class Cube {
         }
     }
 
-    private void rotateFaceLeft(int[][] M){
+    public void rotateFaceLeft(int[][] M){
         int [][] aux = new int[M.length][];
         int k = 0, l = 0;
         for(int i = 0; i < M.length; i++)
@@ -56,7 +87,7 @@ public class Cube {
         }
     }
 
-    private void rotate1(){
+    public void rotate1(){
         for(int i = 0; i < 3; i++){
             int aux1 = top[i][0];
             int aux2 = back[i][0];
@@ -66,9 +97,10 @@ public class Cube {
             bottom[i][0] = aux2;
             front[i][0] = aux3;
         }
+        rotateFaceLeft(left);
     }
 
-    private void rotate2(){
+    public void rotate2(){
         for(int i = 0; i < 3; i++){
             int aux1 = top[i][2];
             int aux2 = back[i][2];
@@ -78,9 +110,10 @@ public class Cube {
             bottom[i][2] = aux2;
             front[i][2] = aux3;
         }
+        rotateFaceRight(right);
     }
 
-    private void rotate3(){
+    public void rotate3(){
         for(int i = 0; i < 3; i++){
             int aux1 = top[2][i];
             int aux2 = right[i][0];
@@ -90,9 +123,10 @@ public class Cube {
             bottom[0][i] = aux2;
             left[i][2] = aux3;
         }
+        rotateFaceRight(front);
     }
 
-    private void rotate4(){
+    public void rotate4(){
         for(int i = 0; i < 3; i++){
             int aux1 = top[0][i];
             int aux2 = right[i][2];
@@ -102,9 +136,10 @@ public class Cube {
             bottom[2][i] = aux2;
             left[i][2] = aux3;
         }
+        rotateFaceLeft(back);
     }
 
-    private void rotate5(){
+    public void rotate5(){
         for(int i = 0; i < 3; i++){
             int aux1 = front[0][i];
             int aux2 = right[0][i];
@@ -114,9 +149,10 @@ public class Cube {
             back[2][Math.abs(i-2)] = aux2;
             left[0][i] = aux3;
         }
+        rotateFaceLeft(top);
     }
 
-    private void rotate6(){
+    public void rotate6(){
         for(int i = 0; i < 3; i++){
             int aux1 = front[2][i];
             int aux2 = right[2][i];
@@ -126,40 +162,33 @@ public class Cube {
             back[0][Math.abs(i-2)] = aux2;
             left[2][i] = aux3;
         }
+        rotateFaceRight(bottom);
     }
 
-    private void unorder(){
+    public void unorder(){
         int r;
         for(int i = 0; i < 1; i++) {
-            //r = (int) (Math.random() * 6);
-            r = 2;
-            System.out.println(r+1);
+            r = (int) (Math.random() * 6);
             switch (r)
             {
                 case 0:
                     rotate1();
-                    rotateFaceLeft(left);
                     break;
 
                 case 1:
                     rotate2();
-                    rotateFaceRight(right);
                     break;
                 case 2:
                     rotate3();
-                    rotateFaceRight(front);
                     break;
                 case 3:
                     rotate4();
-                    rotateFaceLeft(back);
                     break;
                 case 4:
                     rotate5();
-                    rotateFaceLeft(top);
                     break;
                 case 5:
                     rotate6();
-                    rotateFaceRight(bottom);
                     break;
             }
 
