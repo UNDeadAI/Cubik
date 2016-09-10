@@ -26,19 +26,127 @@ public class Cube {
         }
     }
 
-    private void rotateMatrix(int[][] M){
-        int[][] tmp = M;
-        M[0][0] = tmp[0][2];
-        M[0][1] = tmp[1][2];
-        M[0][2] = tmp[2][2];
-        M[1][0] = tmp[0][1];
-        M[1][2] = tmp[2][1];
-        M[2][0] = tmp[0][0];
-        M[2][1] = tmp[1][0];
-        M[2][2] = tmp[2][0];
+    private void rotateFace(int[][] M){
+        int [][] aux = new int[M.length][];
+        int k = 0, l = 0;
+        for(int i = 0; i < M.length; i++)
+            aux[i] = M[i].clone();
+        for(int i = 0; i < 3; i++){
+            for(int j = 2; j >= 0; j--){
+                M[l][k] = aux[j][i];
+                k++;
+            }
+            l++;
+        }
     }
 
     private void rotate1(){
+        for(int i = 0; i < 3; i++){
+            int aux1 = top[i][0];
+            int aux2 = back[i][0];
+            int aux3 = bottom[i][0];
+            top[i][0] = front[i][0];
+            back[i][0] = aux1;
+            bottom[i][0] = aux2;
+            front[i][0] = aux3;
+        }
+    }
+
+    private void rotate2(){
+        for(int i = 0; i < 3; i++){
+            int aux1 = top[i][2];
+            int aux2 = back[i][2];
+            int aux3 = bottom[i][2];
+            top[i][2] = front[i][2];
+            back[i][2] = aux1;
+            bottom[i][2] = aux2;
+            front[i][2] = aux3;
+        }
+    }
+
+    private void rotate3(){
+        for(int i = 0; i < 3; i++){
+            int aux1 = top[i][0];
+            int aux2 = right[i][0];
+            int aux3 = bottom[i][0];
+            top[i][0] = left[i][0];
+            right[i][0] = aux1;
+            bottom[i][0] = aux2;
+            left[i][0] = aux3;
+        }
+    }
+
+    private void rotate4(){
+        for(int i = 0; i < 3; i++){
+            int aux1 = top[i][2];
+            int aux2 = right[i][2];
+            int aux3 = bottom[i][2];
+            top[i][0] = left[i][2];
+            right[i][2] = aux1;
+            bottom[i][2] = aux2;
+            left[i][2] = aux3;
+        }
+    }
+
+    private void rotate5(){
+        for(int i = 0; i < 3; i++){
+            int aux1 = front[i][0];
+            int aux2 = right[i][0];
+            int aux3 = back[i][0];
+            front[i][0] = left[i][0];
+            right[i][0] = aux1;
+            back[i][0] = aux2;
+            left[i][0] = aux3;
+        }
+    }
+
+    private void rotate6(){
+        for(int i = 0; i < 3; i++){
+            int aux1 = front[i][2];
+            int aux2 = right[i][2];
+            int aux3 = back[i][2];
+            front[i][0] = left[i][2];
+            right[i][2] = aux1;
+            back[i][2] = aux2;
+            left[i][2] = aux3;
+        }
+    }
+
+    private void unorder(){
+        int r;
+        for(int i = 0; i < 15; i++) {
+            r = (int) (Math.random() * 6);
+            switch (r)
+            {
+                case 0:
+                    rotate1();
+                    break;
+
+                case 1:
+                    rotate2();
+                    break;
+                case 2:
+                    rotate3();
+                    break;
+                case 3:
+                    rotate4();
+                    break;
+                case 4:
+                    rotate5();
+                    break;
+                case 5:
+                    rotate6();
+                    break;
+            }
+
+        }
+
+    }
+
+
+    public static void main(String[] args) {
+        Cube cubyto = new Cube();
+        cubyto.unorder();
 
     }
 }
