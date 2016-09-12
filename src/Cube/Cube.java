@@ -1,8 +1,8 @@
 package Cube;
 
-/**
- * Created by Alvaro on 01/09/2016.
- */
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class Cube {
     int[][] front = new int[3][3];
     int[][] back = new int[3][3];
@@ -10,6 +10,8 @@ public class Cube {
     int[][] bottom = new int[3][3];
     int[][] left = new int[3][3];
     int[][] right = new int[3][3];
+    private ArrayList<Integer> moves;
+    private int disorderNumber = 1;
 
     public Cube() {
         for(int i = 0; i < 3; i++){
@@ -22,6 +24,7 @@ public class Cube {
                 right[i][j] = 6;
             }
         }
+        moves = new ArrayList<>();
     }
 
     public Cube(Cube cube) {
@@ -34,24 +37,29 @@ public class Cube {
                 left[i][j] = cube.left[i][j];
                 right[i][j] = cube.right[i][j];
             }
+        moves = new ArrayList<>(cube.getMoves());
     }
 
     public boolean isOk() {
-        for (int i = 0; i < 3; i++){
-            for (int j = 0; j < 3; j++) {
-                if(front[i][j] != CubeMover.frontOk[i][j])
-                    return false;
-                if(back[i][j] != CubeMover.backOk[i][j])
-                    return false;
-                if(top[i][j] != CubeMover.topOk[i][j])
-                    return false;
-                if(bottom[i][j] != CubeMover.bottomOk[i][j])
-                    return false;
-                if(left[i][j] != CubeMover.leftOk[i][j])
-                    return false;
-                if(right[i][j] != CubeMover.rightOk[i][j])
-                    return false;
-            }
+        int j, i, I, J, K;
+        for(int k = 0; k < 8; k++){
+            j = k%3;
+            i = k/3;
+            K = k+1;
+            I = K%3;
+            J = K/3;
+            if(front[i][j] != front[I][J])
+                return false;
+            if(back[i][j] != back[I][J])
+                return false;
+            if(left[i][j] != left[I][J])
+                return false;
+            if(right[i][j] != right[I][J])
+                return false;
+            if(bottom[i][j] != bottom[I][J])
+                return false;
+            if(top[i][j] != top[I][J])
+                return false;
         }
         return true;
     }
@@ -167,14 +175,16 @@ public class Cube {
 
     public void unorder(){
         int r;
-        for(int i = 0; i < 1; i++) {
+        ArrayList<Integer> rotations = new ArrayList<>(disorderNumber);
+        System.out.println("Unordering");
+        for(int i = 0; i < disorderNumber; i++) {
             r = (int) (Math.random() * 6);
-            switch (r)
-            {
+            //r = 5;
+            rotations.add(r+1);
+            switch (r) {
                 case 0:
                     rotate1();
                     break;
-
                 case 1:
                     rotate2();
                     break;
@@ -191,100 +201,107 @@ public class Cube {
                     rotate6();
                     break;
             }
-
         }
-
+        System.out.println(rotations);
     }
 
     @Override
     public String toString(){
-        String myString = new String();
-
         StringBuilder theString = new StringBuilder();
 
-
         theString.append("Top: [");
-        for(int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++)
-            {
+        for(int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++) {
                 theString.append(top[i][j]);
                 theString.append(",");
             }
 
-        }
         theString.append("] \n");
-
-
-
-
         theString.append("Front: [");
-        for(int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++)
-            {
+        for(int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++) {
                 theString.append(front[i][j]);
                 theString.append(",");
             }
-        }
+
         theString.append("] \n");
 
-
         theString.append("Bottom: [");
-        for(int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++)
-            {
+        for(int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++) {
                 theString.append(bottom[i][j]);
                 theString.append(",");
             }
 
-        }
         theString.append("] \n");
 
-
         theString.append("Back: [");
-        for(int i = 0; i < 3; i++) {
+        for(int i = 0; i < 3; i++)
             for (int j = 0; j < 3; j++)
             {
                 theString.append(back[i][j]);
                 theString.append(",");
             }
 
-        }
         theString.append("] \n");
-
-
         theString.append("Left: [");
-        for(int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++)
-            {
+        for(int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++) {
                 theString.append(left[i][j]);
                 theString.append(",");
             }
 
-        }
         theString.append("] \n");
-
         theString.append("Right: [");
-        for(int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++)
-            {
+        for(int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++) {
                 theString.append(right[i][j]);
                 theString.append(",");
             }
 
-        }
         theString.append("] \n");
-
-
         return theString.toString();
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Cube cube = (Cube) o;
+
+        if (!Arrays.deepEquals(front, cube.front)) return false;
+        if (!Arrays.deepEquals(back, cube.back)) return false;
+        if (!Arrays.deepEquals(top, cube.top)) return false;
+        if (!Arrays.deepEquals(bottom, cube.bottom)) return false;
+        if (!Arrays.deepEquals(left, cube.left)) return false;
+        return Arrays.deepEquals(right, cube.right);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Arrays.deepHashCode(front);
+        result = 31 * result + Arrays.deepHashCode(back);
+        result = 31 * result + Arrays.deepHashCode(top);
+        result = 31 * result + Arrays.deepHashCode(bottom);
+        result = 31 * result + Arrays.deepHashCode(left);
+        result = 31 * result + Arrays.deepHashCode(right);
+        return result;
+    }
+
+    public void addMove(int move){
+        moves.add(move);
+    }
+
+    public ArrayList<Integer> getMoves(){
+        return moves;
     }
 
     public static void main(String[] args) {
         Cube cubyto = new Cube();
-
         System.out.println(cubyto.toString());
         cubyto.unorder();
         System.out.println(cubyto.toString());
-
     }
 }

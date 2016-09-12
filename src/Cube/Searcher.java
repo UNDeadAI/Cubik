@@ -1,49 +1,75 @@
 package Cube;
 
-
+import java.util.HashSet;
 import java.util.LinkedList;
 
 public class Searcher {
 
     public Cube root;
+    public int expandedNodes;
 
     public Searcher(Cube cube){
         root = cube;
     }
 
-    public int BFS(){
+    public Cube BFS(){
+        expandedNodes = 0;
         LinkedList<Cube> list = new LinkedList<>();
+        HashSet<Cube> visited = new HashSet<>();
         list.add(root);
+        visited.add(root);
         Cube tmp;
-        int i = 0;
         while (!list.isEmpty()){
-            i++;
+            expandedNodes++;
             Cube u = list.removeFirst();
             tmp = CubeMover.rotate1(u);
             if(tmp.isOk())
-                return i;
-            list.add(tmp);
+                return tmp;
+            if(!visited.contains(tmp)) {
+                list.add(tmp);
+                visited.add(tmp);
+            }
+
             tmp = CubeMover.rotate2(u);
             if(tmp.isOk())
-                return i;
-            list.add(tmp);
+                return tmp;
+            if(!visited.contains(tmp)) {
+                list.add(tmp);
+                visited.add(tmp);
+            }
+
             tmp = CubeMover.rotate3(u);
             if(tmp.isOk())
-                return i;
-            list.add(tmp);
+                return tmp;
+            if(!visited.contains(tmp)) {
+                list.add(tmp);
+                visited.add(tmp);
+            }
+
             tmp = CubeMover.rotate4(u);
             if(tmp.isOk())
-                return i;
-            list.add(tmp);
+                return tmp;
+            if(!visited.contains(tmp)) {
+                list.add(tmp);
+                visited.add(tmp);
+            }
+
             tmp = CubeMover.rotate5(u);
             if(tmp.isOk())
-                return i;
-            list.add(tmp);
+                return tmp;
+            if(!visited.contains(tmp)) {
+                list.add(tmp);
+                visited.add(tmp);
+            }
+
             tmp = CubeMover.rotate6(u);
             if(tmp.isOk())
-                return i;
-            list.add(tmp);
+                return tmp;
+            if(!visited.contains(tmp)) {
+                list.add(tmp);
+                visited.add(tmp);
+            }
         }
-        return -1;
+        return null;
     }
 }
