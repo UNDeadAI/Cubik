@@ -14,6 +14,7 @@ public class Cube {
     private int disorderNumber = 1;
 
     public Cube() {
+
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 3; j++) {
                 front[i][j] = 1;
@@ -122,27 +123,40 @@ public class Cube {
     }
 
     public void rotate3(){
+        int lf[] = new int[3];
+        int bt[] = new int[3];
+        for(int i = 0; i < 3; i++){
+            lf[i] = left[i][2];
+            bt[i] = bottom[0][i];
+        }
         for(int i = 0; i < 3; i++){
             int aux1 = top[2][i];
             int aux2 = right[i][0];
-            int aux3 = bottom[0][i];
-            top[2][i] = left[i][2];
+            int aux3 = bt[i];
+            top[2][i] = lf[Math.abs(i-2)];
             right[i][0] = aux1;
-            bottom[0][i] = aux2;
+            bottom[0][Math.abs(i-2)] = aux2;
             left[i][2] = aux3;
         }
+
         rotateFaceRight(front);
     }
 
     public void rotate4(){
+        int lf[] = new int[3];
+        int bt[] = new int[3];
+        for(int i = 0; i < 3; i++){
+            lf[i] = left[i][0];
+            bt[i] = bottom[2][i];
+        }
         for(int i = 0; i < 3; i++){
             int aux1 = top[0][i];
             int aux2 = right[i][2];
-            int aux3 = bottom[2][i];
-            top[0][i] = left[i][0];
+            int aux3 = bt[i];
+            top[0][i] = lf[Math.abs(i-2)];
             right[i][2] = aux1;
-            bottom[2][i] = aux2;
-            left[i][2] = aux3;
+            bottom[2][Math.abs(i-2)] = aux2;
+            left[i][0] = aux3;
         }
         rotateFaceLeft(back);
     }
@@ -173,13 +187,103 @@ public class Cube {
         rotateFaceRight(bottom);
     }
 
+    public void rotate1P(){
+        for(int i = 0; i < 3; i++){
+            int aux1 = top[i][0];
+            int aux2 = front[i][0];
+            int aux3 = bottom[i][0];
+            top[i][0] = back[i][0];
+            front[i][0] = aux1;
+            bottom[i][0]= aux2;
+            back[i][0]= aux3;
+        }
+        rotateFaceRight(left);
+    }
+
+    public void rotate2P(){
+        for(int i = 0; i < 3; i++){
+            int aux1 = top[i][2];
+            int aux2 = front[i][2];
+            int aux3 = bottom[i][2];
+            top[i][2] = back[i][2];
+            front[i][2] = aux1;
+            bottom[i][2]= aux2;
+            back[i][2]= aux3;
+        }
+        rotateFaceLeft(right);
+    }
+
+    public void rotate3P(){
+        int rf[] = new int[3];
+        int bt[] = new int[3];
+        for(int i = 0; i < 3; i++){
+            rf[i] = top[2][i];
+            bt[i] = bottom[0][i];
+        }
+        for(int i = 0; i < 3; i++){
+            int aux1 = right[i][0];
+            int aux2 = left[i][2];
+            //int aux3 = rf[i];
+            left[i][2] = rf[Math.abs(i-2)];
+            bottom[0][i] = aux2;
+            right[i][0] = bt[Math.abs(i-2)];
+            top[2][i] = aux1;
+        }
+        rotateFaceLeft(front);
+    }
+
+    public void rotate4P(){
+        int rf[] = new int[3];
+        int bt[] = new int[3];
+        for(int i = 0; i < 3; i++){
+            rf[i] = top[0][i];
+            bt[i] = bottom[2][i];
+        }
+        for(int i = 0; i < 3; i++){
+            int aux1 = right[i][2];
+            int aux2 = left[i][0];
+            //int aux3 = rf[i];
+            left[i][0] = rf[Math.abs(i-2)];
+            bottom[2][i] = aux2;
+            right[i][2] = bt[Math.abs(i-2)];
+            top[0][i] = aux1;
+        }
+        rotateFaceRight(back);
+    }
+
+    public void rotate5P(){
+        for(int i = 0; i < 3; i++){
+            int aux1 = front[0][i];
+            int aux2 = left[0][i];
+            int aux3 = back[2][Math.abs(i-2)];
+            front[0][i] = right[0][i];
+            left[0][i] = aux1;
+            back[2][Math.abs(i-2)] = aux2;
+            right[0][i] = aux3;
+        }
+        rotateFaceRight(top);
+    }
+
+    public void rotate6P(){
+        for(int i = 0; i < 3; i++){
+            int aux1 = front[2][i];
+            int aux2 = left[2][i];
+            int aux3 = back[0][Math.abs(i-2)];
+            front[2][i] = right[2][i];
+            left[2][i] = aux1;
+            back[0][Math.abs(i-2)] = aux2;
+            right[2][i] = aux3;
+        }
+        rotateFaceLeft(bottom);
+    }
+
     public void unorder(){
         int r;
         ArrayList<Integer> rotations = new ArrayList<>(disorderNumber);
         System.out.println("Unordering");
         for(int i = 0; i < disorderNumber; i++) {
-            r = (int) (Math.random() * 6);
-            //r = 5;
+            r = (int) (Math.random() * 12);
+            //r = 9;
             rotations.add(r+1);
             switch (r) {
                 case 0:
@@ -200,6 +304,24 @@ public class Cube {
                 case 5:
                     rotate6();
                     break;
+                case 6:
+                    rotate1P();
+                    break;
+                case 7:
+                    rotate2P();
+                    break;
+                case 8:
+                    rotate3P();
+                    break;
+                case 9:
+                    rotate4P();
+                    break;
+                case 10:
+                    rotate5P();
+                    break;
+                case 11:
+                    rotate6P();
+                    break;
             }
         }
         System.out.println(rotations);
@@ -209,57 +331,63 @@ public class Cube {
     public String toString(){
         StringBuilder theString = new StringBuilder();
 
+        String waka;
         theString.append("Top: [");
         for(int i = 0; i < 3; i++)
             for (int j = 0; j < 3; j++) {
                 theString.append(top[i][j]);
-                theString.append(",");
+                waka = (i == 2 && j == 2)?"] \n":",";
+                theString.append(waka);
             }
-
-        theString.append("] \n");
+        //theString.append("] \n");
         theString.append("Front: [");
         for(int i = 0; i < 3; i++)
             for (int j = 0; j < 3; j++) {
                 theString.append(front[i][j]);
-                theString.append(",");
+                waka = (i == 2 && j == 2)?"] \n":",";
+                theString.append(waka);
             }
 
-        theString.append("] \n");
+        //theString.append("] \n");
 
         theString.append("Bottom: [");
         for(int i = 0; i < 3; i++)
             for (int j = 0; j < 3; j++) {
                 theString.append(bottom[i][j]);
-                theString.append(",");
+                waka = (i == 2 && j == 2)?"] \n":",";
+                theString.append(waka);
             }
 
-        theString.append("] \n");
+        //theString.append("] \n");
 
         theString.append("Back: [");
-        for(int i = 0; i < 3; i++)
-            for (int j = 0; j < 3; j++)
+        for(int i = 2; i >= 0; i--)
+            for (int j = 2; j >= 0; j--)
             {
                 theString.append(back[i][j]);
-                theString.append(",");
+                waka = (i == 0 && j == 0)?"] \n":",";
+                theString.append(waka);
             }
 
-        theString.append("] \n");
+        //theString.append("] \n");
         theString.append("Left: [");
         for(int i = 0; i < 3; i++)
             for (int j = 0; j < 3; j++) {
                 theString.append(left[i][j]);
-                theString.append(",");
+                waka = (i == 2 && j == 2)?"] \n":",";
+                theString.append(waka);
             }
 
-        theString.append("] \n");
+        //theString.append("] \n");
         theString.append("Right: [");
         for(int i = 0; i < 3; i++)
             for (int j = 0; j < 3; j++) {
                 theString.append(right[i][j]);
-                theString.append(",");
+                waka = (i == 2 && j == 2)?"] \n":",";
+                theString.append(waka);
             }
 
-        theString.append("] \n");
+        //theString.append("] \n");
         return theString.toString();
     }
 
@@ -300,8 +428,8 @@ public class Cube {
 
     public static void main(String[] args) {
         Cube cubyto = new Cube();
-        System.out.println(cubyto.toString());
+        System.out.println(cubyto);
         cubyto.unorder();
-        System.out.println(cubyto.toString());
+        System.out.println(cubyto);
     }
 }

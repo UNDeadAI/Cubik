@@ -69,6 +69,54 @@ public class Searcher {
                 list.add(tmp);
                 visited.add(tmp);
             }
+
+            tmp = CubeMover.rotate7(u);
+            if(tmp.isOk())
+                return tmp;
+            if(!visited.contains(tmp)) {
+                list.add(tmp);
+                visited.add(tmp);
+            }
+
+            tmp = CubeMover.rotate8(u);
+            if(tmp.isOk())
+                return tmp;
+            if(!visited.contains(tmp)) {
+                list.add(tmp);
+                visited.add(tmp);
+            }
+
+            tmp = CubeMover.rotate9(u);
+            if(tmp.isOk())
+                return tmp;
+            if(!visited.contains(tmp)) {
+                list.add(tmp);
+                visited.add(tmp);
+            }
+
+            tmp = CubeMover.rotate10(u);
+            if(tmp.isOk())
+                return tmp;
+            if(!visited.contains(tmp)) {
+                list.add(tmp);
+                visited.add(tmp);
+            }
+
+            tmp = CubeMover.rotate11(u);
+            if(tmp.isOk())
+                return tmp;
+            if(!visited.contains(tmp)) {
+                list.add(tmp);
+                visited.add(tmp);
+            }
+
+            tmp = CubeMover.rotate12(u);
+            if(tmp.isOk())
+                return tmp;
+            if(!visited.contains(tmp)) {
+                list.add(tmp);
+                visited.add(tmp);
+            }
         }
         return null;
     }
