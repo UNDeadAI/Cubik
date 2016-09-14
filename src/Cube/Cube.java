@@ -3,7 +3,7 @@ package Cube;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Cube {
+public class Cube implements Comparable<Cube>{
     int[][] front = new int[3][3];
     int[][] back = new int[3][3];
     int[][] top = new int[3][3];
@@ -13,8 +13,33 @@ public class Cube {
     private ArrayList<Integer> moves;
     private int disorderNumber = 1;
 
-    public Cube() {
+    public int heuristic(){
+        int j, i, r = moves.size();
+        for(int k = 0; k < 9; k++){
+            j = k%3;
+            i = k/3;
+            if(front[i][j] != front[1][1])
+                r++;
+            if(back[i][j] != back[1][1])
+                r++;
+            if(left[i][j] != left[1][1])
+                r++;
+            if(right[i][j] != right[1][1])
+                r++;
+            if(bottom[i][j] != bottom[1][1])
+                r++;
+            if(top[i][j] != top[1][1])
+                r++;
+        }
+        return r/12;
+    }
 
+    @Override
+    public int compareTo(Cube o) {
+        return o.heuristic() - heuristic();
+    }
+
+    public Cube() {
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 3; j++) {
                 front[i][j] = 1;
