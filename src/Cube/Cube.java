@@ -11,7 +11,7 @@ public class Cube implements Comparable<Cube>{
     int[][] left = new int[3][3];
     int[][] right = new int[3][3];
     private ArrayList<Integer> moves;
-    private int disorderNumber = 1;
+    private int disorderNumber = 4;
 
     public int heuristic(){
         int j, i, r = moves.size();
@@ -395,7 +395,6 @@ public class Cube implements Comparable<Cube>{
         System.out.println("Unordering");
         for(int i = 0; i < disorderNumber; i++) {
             r = (int) (Math.random() * 18);
-            r = 17;
             rotations.add(r+1);
             switch (r) {
                 case 0:
