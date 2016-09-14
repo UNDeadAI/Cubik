@@ -264,6 +264,93 @@ public class Cube {
         rotateFaceRight(top);
     }
 
+    //rotate central vertical 1
+    public void rotateC1(){
+        for(int i = 0; i < 3; i++){
+            int aux1 = top[i][1];
+            int aux2 = back[i][1];
+            int aux3 = bottom[i][1];
+            top[i][1] = front[i][1];
+            back[i][1] = aux1;
+            bottom[i][1] = aux2;
+            front[i][1] = aux3;
+        }
+    }
+
+    //rotate central horizontal 1
+    public void rotateC2 (){
+        for(int i = 0; i < 3; i++){
+            int aux1 = front[1][i];
+            int aux2 = right[1][i];
+            int aux3 = back[1][Math.abs(i-2)];
+            front[1][i] = left[1][i];
+            right[1][i] = aux1;
+            back[1][Math.abs(i-2)] = aux2;
+            left[1][i] = aux3;
+        }
+    }
+
+    //rotate central vertical 2
+    public void rotateC3(){
+        int lf[] = new int[3];
+        int bt[] = new int[3];
+        for(int i = 0; i < 3; i++){
+            lf[i] = left[i][1];
+            bt[i] = bottom[1][i];
+        }
+        for(int i = 0; i < 3; i++){
+            int aux1 = top[1][i];
+            int aux2 = right[i][1];
+            int aux3 = bt[i];
+            top[1][i] = lf[Math.abs(i-2)];
+            right[i][1] = aux1;
+            bottom[1][Math.abs(i-2)] = aux2;
+            left[i][1] = aux3;
+        }
+    }
+
+    public void rotateC1P(){
+        for(int i = 0; i < 3; i++){
+            int aux1 = top[i][1];
+            int aux2 = front[i][1];
+            int aux3 = bottom[i][1];
+            top[i][1] = back[i][1];
+            front[i][1] = aux1;
+            bottom[i][1]= aux2;
+            back[i][1]= aux3;
+        }
+    }
+
+    public void rotateC2P(){
+        for(int i = 0; i < 3; i++){
+            int aux1 = front[1][i];
+            int aux2 = left[1][i];
+            int aux3 = back[1][Math.abs(i-2)];
+            front[1][i] = right[0][i];
+            left[1][i] = aux1;
+            back[1][Math.abs(i-2)] = aux2;
+            right[1][i] = aux3;
+        }
+    }
+
+    public void rotateC3P(){
+        int rf[] = new int[3];
+        int bt[] = new int[3];
+        for(int i = 0; i < 3; i++){
+            rf[i] = top[1][i];
+            bt[i] = bottom[1][i];
+        }
+        for(int i = 0; i < 3; i++){
+            int aux1 = right[i][1];
+            int aux2 = left[i][1];
+            //int aux3 = rf[i];
+            left[i][1] = rf[Math.abs(i-2)];
+            bottom[1][i] = aux2;
+            right[i][1] = bt[Math.abs(i-2)];
+            top[1][i] = aux1;
+        }
+    }
+
     public void rotate6P(){
         for(int i = 0; i < 3; i++){
             int aux1 = front[2][i];
@@ -282,8 +369,8 @@ public class Cube {
         ArrayList<Integer> rotations = new ArrayList<>(disorderNumber);
         System.out.println("Unordering");
         for(int i = 0; i < disorderNumber; i++) {
-            r = (int) (Math.random() * 12);
-            //r = 9;
+            r = (int) (Math.random() * 18);
+            r = 17;
             rotations.add(r+1);
             switch (r) {
                 case 0:
@@ -321,6 +408,24 @@ public class Cube {
                     break;
                 case 11:
                     rotate6P();
+                    break;
+                case 12:
+                    rotateC1();
+                    break;
+                case 13:
+                    rotateC2();
+                    break;
+                case 14:
+                    rotateC3();
+                    break;
+                case 15:
+                    rotateC1P();
+                    break;
+                case 16:
+                    rotateC2P();
+                    break;
+                case 17:
+                    rotateC3P();
                     break;
             }
         }
