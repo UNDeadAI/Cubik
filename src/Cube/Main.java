@@ -9,7 +9,7 @@ public class Main {
         System.out.println("Cubik unordered");
         System.out.println(cube);
         System.out.println("Cubik ordered");
-        Cube done = searcher.theAStar();
+        Cube done = searcher.BFS();
         if(done != null) {
             System.out.println("Created nodes: " + searcher.expandedNodes);
             System.out.println("Moves done: ");

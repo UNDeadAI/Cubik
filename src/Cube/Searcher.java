@@ -18,9 +18,12 @@ public class Searcher {
     }
 
     public Cube theAStar(){
-        q = new PriorityQueue<>();
-        q.add(root);
         expandedNodes = 0;
+        if(root.isOk())
+            return root;
+        q = new PriorityQueue<>();
+        visited = new HashSet<>();
+        q.add(root);
         while (!q.isEmpty()){
             tmp = q.poll();;
             tmp = expandNodes2(tmp);
@@ -41,13 +44,15 @@ public class Searcher {
 
     public Cube DFS(){
         expandedNodes = 0;
+        if(root.isOk())
+            return root;
         list = new LinkedList<>();
         visited = new HashSet<>();
         list.add(root);
         visited.add(root);
         while (!list.isEmpty()){
             Cube u = list.removeLast();
-            tmp = expandNodes(u);
+            tmp = expandNodes3(u);
             if(tmp != null)
                 return tmp;
         }
@@ -56,6 +61,8 @@ public class Searcher {
 
     public Cube limitedDFS(int limit){
         expandedNodes = 0;
+        if(root.isOk())
+            return root;
         list = new LinkedList<>();
         visited = new HashSet<>();
         list.add(root);
@@ -63,9 +70,7 @@ public class Searcher {
         while (!list.isEmpty()){
             Cube u = list.removeLast();
             if(u.getMoves().size() < limit)
-                tmp = expandNodes(u);
-            else
-                tmp = null;
+                tmp = expandNodes3(u);
             if(tmp != null)
                 return tmp;
         }
@@ -74,6 +79,8 @@ public class Searcher {
 
     public Cube BFS(){
         expandedNodes = 0;
+        if(root.isOk())
+            return root;
         list = new LinkedList<>();
         visited = new HashSet<>();
         list.add(root);
@@ -253,96 +260,280 @@ public class Searcher {
         return null;
     }
 
-    private Cube expandNodes2(Cube u){
+    private Cube expandNodes3(Cube u){
         tmp = CubeMover.rotate1(u);
         if(tmp.isOk())
             return tmp;
-        q.add(tmp);
+        list.add(tmp);
+        expandedNodes++;
 
         tmp = CubeMover.rotate2(u);
         if(tmp.isOk())
             return tmp;
-        q.add(tmp);
+        list.add(tmp);
+        expandedNodes++;
 
         tmp = CubeMover.rotate3(u);
         if(tmp.isOk())
             return tmp;
-        q.add(tmp);
+        list.add(tmp);
+        expandedNodes++;
 
         tmp = CubeMover.rotate4(u);
         if(tmp.isOk())
             return tmp;
-        q.add(tmp);
+        list.add(tmp);
+        expandedNodes++;
 
         tmp = CubeMover.rotate5(u);
         if(tmp.isOk())
             return tmp;
-        q.add(tmp);
+        list.add(tmp);
+        expandedNodes++;
 
         tmp = CubeMover.rotate6(u);
         if(tmp.isOk())
             return tmp;
-        q.add(tmp);
+        list.add(tmp);
+        expandedNodes++;
 
         tmp = CubeMover.rotate7(u);
         if(tmp.isOk())
             return tmp;
-        q.add(tmp);
+        list.add(tmp);
+        expandedNodes++;
 
         tmp = CubeMover.rotate8(u);
         if(tmp.isOk())
             return tmp;
-        q.add(tmp);
+        list.add(tmp);
+        expandedNodes++;
 
         tmp = CubeMover.rotate9(u);
         if(tmp.isOk())
             return tmp;
-        q.add(tmp);
+        list.add(tmp);
+        expandedNodes++;
 
         tmp = CubeMover.rotate10(u);
         if(tmp.isOk())
             return tmp;
-        q.add(tmp);
+        list.add(tmp);
+        expandedNodes++;
 
         tmp = CubeMover.rotate11(u);
         if(tmp.isOk())
             return tmp;
-        q.add(tmp);
+        list.add(tmp);
+        expandedNodes++;
 
         tmp = CubeMover.rotate12(u);
         if(tmp.isOk())
             return tmp;
-        q.add(tmp);
+        list.add(tmp);
+        expandedNodes++;
 
         tmp = CubeMover.rotate13(u);
         if(tmp.isOk())
             return tmp;
-        q.add(tmp);
+        list.add(tmp);
+        expandedNodes++;
 
         tmp = CubeMover.rotate14(u);
         if(tmp.isOk())
             return tmp;
-        q.add(tmp);
+        list.add(tmp);
+        expandedNodes++;
 
         tmp = CubeMover.rotate15(u);
         if(tmp.isOk())
             return tmp;
-        q.add(tmp);
+        list.add(tmp);
+        expandedNodes++;
 
         tmp = CubeMover.rotate16(u);
         if(tmp.isOk())
             return tmp;
-        q.add(tmp);
+        list.add(tmp);
+        expandedNodes++;
 
         tmp = CubeMover.rotate17(u);
         if(tmp.isOk())
             return tmp;
-        q.add(tmp);
+        list.add(tmp);
+        expandedNodes++;
 
         tmp = CubeMover.rotate18(u);
         if(tmp.isOk())
             return tmp;
-        q.add(tmp);
+        list.add(tmp);
+        expandedNodes++;
+
+        return null;
+    }
+
+    private Cube expandNodes2(Cube u){
+        tmp = CubeMover.rotate1(u);
+        if(tmp.isOk())
+            return tmp;
+        if(!visited.contains(tmp)) {
+            visited.add(tmp);
+            expandedNodes++;
+            q.add(tmp);
+        }
+
+        tmp = CubeMover.rotate2(u);
+        if(tmp.isOk())
+            return tmp;
+        if(!visited.contains(tmp)) {
+            visited.add(tmp);
+            expandedNodes++;
+            q.add(tmp);
+        }
+
+        tmp = CubeMover.rotate3(u);
+        if(tmp.isOk())
+            return tmp;
+        if(!visited.contains(tmp)) {
+            visited.add(tmp);
+            expandedNodes++;
+            q.add(tmp);
+        }
+
+        tmp = CubeMover.rotate4(u);
+        if(tmp.isOk())
+            return tmp;
+        if(!visited.contains(tmp)) {
+            visited.add(tmp);
+            expandedNodes++;
+            q.add(tmp);
+        }
+
+        tmp = CubeMover.rotate5(u);
+        if(tmp.isOk())
+            return tmp;
+        if(!visited.contains(tmp)) {
+            visited.add(tmp);
+            expandedNodes++;
+            q.add(tmp);
+        }
+
+        tmp = CubeMover.rotate6(u);
+        if(tmp.isOk())
+            return tmp;
+        if(!visited.contains(tmp)) {
+            visited.add(tmp);
+            expandedNodes++;
+            q.add(tmp);
+        }
+
+        tmp = CubeMover.rotate7(u);
+        if(tmp.isOk())
+            return tmp;
+        if(!visited.contains(tmp)) {
+            visited.add(tmp);
+            expandedNodes++;
+            q.add(tmp);
+        }
+
+        tmp = CubeMover.rotate8(u);
+        if(tmp.isOk())
+            return tmp;
+        if(!visited.contains(tmp)) {
+            visited.add(tmp);
+            expandedNodes++;
+            q.add(tmp);
+        }
+
+        tmp = CubeMover.rotate9(u);
+        if(tmp.isOk())
+            return tmp;
+        if(!visited.contains(tmp)) {
+            visited.add(tmp);
+            expandedNodes++;
+            q.add(tmp);
+        }
+
+        tmp = CubeMover.rotate10(u);
+        if(tmp.isOk())
+            return tmp;
+        if(!visited.contains(tmp)) {
+            visited.add(tmp);
+            expandedNodes++;
+            q.add(tmp);
+        }
+
+        tmp = CubeMover.rotate11(u);
+        if(tmp.isOk())
+            return tmp;
+        if(!visited.contains(tmp)) {
+            visited.add(tmp);
+            expandedNodes++;
+            q.add(tmp);
+        }
+
+        tmp = CubeMover.rotate12(u);
+        if(tmp.isOk())
+            return tmp;
+        if(!visited.contains(tmp)) {
+            visited.add(tmp);
+            expandedNodes++;
+            q.add(tmp);
+        }
+
+        tmp = CubeMover.rotate13(u);
+        if(tmp.isOk())
+            return tmp;
+        if(!visited.contains(tmp)) {
+            visited.add(tmp);
+            expandedNodes++;
+            q.add(tmp);
+        }
+
+        tmp = CubeMover.rotate14(u);
+        if(tmp.isOk())
+            return tmp;
+        if(!visited.contains(tmp)) {
+            visited.add(tmp);
+            expandedNodes++;
+            q.add(tmp);
+        }
+
+        tmp = CubeMover.rotate15(u);
+        if(tmp.isOk())
+            return tmp;
+        if(!visited.contains(tmp)) {
+            visited.add(tmp);
+            expandedNodes++;
+            q.add(tmp);
+        }
+
+        tmp = CubeMover.rotate16(u);
+        if(tmp.isOk())
+            return tmp;
+        if(!visited.contains(tmp)) {
+            visited.add(tmp);
+            expandedNodes++;
+            q.add(tmp);
+        }
+
+        tmp = CubeMover.rotate17(u);
+        if(tmp.isOk())
+            return tmp;
+        if(!visited.contains(tmp)) {
+            visited.add(tmp);
+            expandedNodes++;
+            q.add(tmp);
+        }
+
+        tmp = CubeMover.rotate18(u);
+        if(tmp.isOk())
+            return tmp;
+        if(!visited.contains(tmp)) {
+            visited.add(tmp);
+            expandedNodes++;
+            q.add(tmp);
+        }
 
         return null;
     }

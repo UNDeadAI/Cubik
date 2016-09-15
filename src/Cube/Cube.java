@@ -11,7 +11,7 @@ public class Cube implements Comparable<Cube>{
     int[][] left = new int[3][3];
     int[][] right = new int[3][3];
     private ArrayList<Integer> moves;
-    private int disorderNumber = 4;
+    private int disorderNumber = 6;
 
     public int heuristic(){
         int j, i, r = moves.size();
@@ -36,7 +36,7 @@ public class Cube implements Comparable<Cube>{
 
     @Override
     public int compareTo(Cube o) {
-        return o.heuristic() - heuristic();
+        return (-(o.heuristic() - heuristic()));
     }
 
     public Cube() {
@@ -351,7 +351,7 @@ public class Cube implements Comparable<Cube>{
             int aux1 = front[1][i];
             int aux2 = left[1][i];
             int aux3 = back[1][Math.abs(i-2)];
-            front[1][i] = right[0][i];
+            front[1][i] = right[1][i];
             left[1][i] = aux1;
             back[1][Math.abs(i-2)] = aux2;
             right[1][i] = aux3;
