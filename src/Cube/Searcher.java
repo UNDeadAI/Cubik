@@ -85,77 +85,102 @@ public class Searcher {
     }
 
     public Cube limitedDFS(Cube u){
-        if(u.getMoves().size() <= limit) {
+        if(u.getMoves().size() < limit) {
             tmp = CubeMover.rotate1(u);
             if (tmp.isOk())
                 return tmp;
             nodesCreated++;
-            limitedDFS(tmp);
+            tmp = limitedDFS(tmp);
+            if(tmp != null)
+                return tmp;
 
             tmp = CubeMover.rotate2(u);
             if (tmp.isOk())
                 return tmp;
             nodesCreated++;
-            limitedDFS(tmp);
+            tmp = limitedDFS(tmp);
+            if(tmp != null)
+                return tmp;
 
             tmp = CubeMover.rotate3(u);
             if (tmp.isOk())
                 return tmp;
             nodesCreated++;
-            limitedDFS(tmp);
+            tmp = limitedDFS(tmp);
+            if(tmp != null)
+                return tmp;
 
             tmp = CubeMover.rotate4(u);
             if (tmp.isOk())
                 return tmp;
             nodesCreated++;
-            limitedDFS(tmp);
+            tmp = limitedDFS(tmp);
+            if(tmp != null)
+                return tmp;
 
             tmp = CubeMover.rotate5(u);
             if (tmp.isOk())
                 return tmp;
             nodesCreated++;
-            limitedDFS(tmp);
+            tmp = limitedDFS(tmp);
+            if(tmp != null)
+                return tmp;
 
             tmp = CubeMover.rotate6(u);
             if (tmp.isOk())
                 return tmp;
             nodesCreated++;
-            limitedDFS(tmp);
+            tmp = limitedDFS(tmp);
+            if(tmp != null)
+                return tmp;
+
             tmp = CubeMover.rotate7(u);
             if (tmp.isOk())
                 return tmp;
             nodesCreated++;
-            limitedDFS(tmp);
+            tmp = limitedDFS(tmp);
+            if(tmp != null)
+                return tmp;
 
             tmp = CubeMover.rotate8(u);
             if (tmp.isOk())
                 return tmp;
             nodesCreated++;
-            limitedDFS(tmp);
+            tmp = limitedDFS(tmp);
+            if(tmp != null)
+                return tmp;
 
             tmp = CubeMover.rotate9(u);
             if (tmp.isOk())
                 return tmp;
             nodesCreated++;
-            limitedDFS(tmp);
+            tmp = limitedDFS(tmp);
+            if(tmp != null)
+                return tmp;
 
             tmp = CubeMover.rotate10(u);
             if (tmp.isOk())
                 return tmp;
             nodesCreated++;
-            limitedDFS(tmp);
+            tmp = limitedDFS(tmp);
+            if(tmp != null)
+                return tmp;
 
             tmp = CubeMover.rotate11(u);
             if (tmp.isOk())
                 return tmp;
             nodesCreated++;
-            limitedDFS(tmp);
+            tmp = limitedDFS(tmp);
+            if(tmp != null)
+                return tmp;
 
             tmp = CubeMover.rotate12(u);
             if (tmp.isOk())
                 return tmp;
             nodesCreated++;
-            limitedDFS(tmp);
+            tmp = limitedDFS(tmp);
+            if(tmp != null)
+                return tmp;
         }
         return null;
     }

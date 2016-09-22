@@ -348,7 +348,7 @@ public class Cube implements Comparable<Cube>{
     }
 
     public void unorder(){
-        int disorderNumber = 6, r;
+        int disorderNumber = 8, r;
         ArrayList<Integer> rotations = new ArrayList<>(disorderNumber);
         System.out.println("Unordering");
         for(int i = 0; i < disorderNumber; i++) {
