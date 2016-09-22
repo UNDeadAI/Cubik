@@ -9,15 +9,17 @@ public class Main {
         System.out.println("Cubik unordered");
         System.out.println(cube);
         System.out.println("Cubik ordered");
-        Cube done = searcher.BFS();
+        //Cube done = searcher.BFS();
+        Cube done = searcher.iterativeDFS(6);
         if(done != null) {
-            System.out.println("Created nodes: " + searcher.expandedNodes);
+            System.out.println("Nodes created: " + searcher.nodesCreated);
             System.out.println("Moves done: ");
             System.out.println(done.getMoves());
             System.out.println("Cubik:");
             System.out.println(done);
         }
         else
-            System.out.println("Didn´t found a solution :'v");
+            System.out.println("Didn´t find a solution :'v");
     }
 }
+

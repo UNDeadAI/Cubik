@@ -2,16 +2,25 @@ package Cube;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.BitSet;
+
+//000 -> white      010 -> green    100 -> yellow
+//001 -> orange     011 -> red      101 -> blue
+
+//Front -> green    Top -> white    back -> blue
+//Right -> red      Left -> orange  Bottom -> yellow
 
 public class Cube implements Comparable<Cube>{
-    int[][] front = new int[3][3];
-    int[][] back = new int[3][3];
-    int[][] top = new int[3][3];
-    int[][] bottom = new int[3][3];
-    int[][] left = new int[3][3];
-    int[][] right = new int[3][3];
+
+    BitSet bits = new BitSet(27);
+
+    BitSet[][] front = new BitSet[3][3];
+    BitSet[][] back = new BitSet[3][3];
+    BitSet[][] top = new BitSet[3][3];
+    BitSet[][] bottom = new BitSet[3][3];
+    BitSet[][] left = new BitSet[3][3];
+    BitSet[][] right = new BitSet[3][3];
     private ArrayList<Integer> moves;
-    private int disorderNumber = 6;
 
     public int heuristic(){
         int j, i, r = moves.size();
@@ -31,7 +40,34 @@ public class Cube implements Comparable<Cube>{
             if(top[i][j] != top[1][1])
                 r++;
         }
-        return r/12;
+        return r/10;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Cube cube = (Cube) o;
+
+        if (!Arrays.deepEquals(front, cube.front)) return false;
+        if (!Arrays.deepEquals(back, cube.back)) return false;
+        if (!Arrays.deepEquals(top, cube.top)) return false;
+        if (!Arrays.deepEquals(bottom, cube.bottom)) return false;
+        if (!Arrays.deepEquals(left, cube.left)) return false;
+        return Arrays.deepEquals(right, cube.right);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Arrays.deepHashCode(front);
+        result = 31 * result + Arrays.deepHashCode(back);
+        result = 31 * result + Arrays.deepHashCode(top);
+        result = 31 * result + Arrays.deepHashCode(bottom);
+        result = 31 * result + Arrays.deepHashCode(left);
+        result = 31 * result + Arrays.deepHashCode(right);
+        return result;
     }
 
     @Override
@@ -40,14 +76,23 @@ public class Cube implements Comparable<Cube>{
     }
 
     public Cube() {
+        BitSet white = new BitSet(3), blue = new BitSet(3), yellow = new BitSet(3),
+            orange = new BitSet(3), green = new BitSet(3), red = new BitSet(3);
+
+        orange.set(2);
+        green.set(1);
+        red.set(1); red.set(2);
+        yellow.set(0);
+        blue.set(0); blue.set(2);
+
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 3; j++) {
-                front[i][j] = 1;
-                back[i][j] = 2;
-                top[i][j] = 3;
-                bottom[i][j] = 4;
-                left[i][j] = 5;
-                right[i][j] = 6;
+                front[i][j] = green;
+                back[i][j] = blue;
+                top[i][j] = white;
+                bottom[i][j] = yellow;
+                left[i][j] = orange;
+                right[i][j] = red;
             }
         }
         moves = new ArrayList<>();
@@ -56,12 +101,12 @@ public class Cube implements Comparable<Cube>{
     public Cube(Cube cube) {
         for(int i = 0; i < 3; i++)
             for(int j = 0; j < 3; j++) {
-                front[i][j] = cube.front[i][j];
-                back[i][j] = cube.back[i][j];
-                top[i][j] = cube.top[i][j];
-                bottom[i][j] = cube.bottom[i][j];
-                left[i][j] = cube.left[i][j];
-                right[i][j] = cube.right[i][j];
+                front[i][j] = (BitSet)cube.front[i][j].clone();
+                back[i][j] = (BitSet)cube.back[i][j].clone();
+                top[i][j] = (BitSet)cube.top[i][j].clone();
+                bottom[i][j] = (BitSet)cube.bottom[i][j].clone();
+                left[i][j] = (BitSet)cube.left[i][j].clone();
+                right[i][j] = (BitSet)cube.right[i][j].clone();
             }
         moves = new ArrayList<>(cube.getMoves());
     }
@@ -74,27 +119,27 @@ public class Cube implements Comparable<Cube>{
             K = k+1;
             I = K%3;
             J = K/3;
-            if(front[i][j] != front[I][J])
+            if(!front[i][j].equals(front[I][J]))
                 return false;
-            if(back[i][j] != back[I][J])
+            if(!back[i][j].equals(back[I][J]))
                 return false;
-            if(left[i][j] != left[I][J])
+            if(!left[i][j].equals(left[I][J]))
                 return false;
-            if(right[i][j] != right[I][J])
+            if(!right[i][j].equals(right[I][J]))
                 return false;
-            if(bottom[i][j] != bottom[I][J])
+            if(!bottom[i][j].equals(bottom[I][J]))
                 return false;
-            if(top[i][j] != top[I][J])
+            if(!top[i][j].equals(top[I][J]))
                 return false;
         }
         return true;
     }
 
 
-    public void rotateFaceRight(int[][] M){
-        int [][] aux = new int[M.length][];
-        int k = 0, l = 0;
-        for(int i = 0; i < M.length; i++)
+    public void rotateFaceRight(BitSet[][] M){
+        BitSet[][] aux = new BitSet[3][];
+        int k, l = 0;
+        for(int i = 0; i < 3; i++)
             aux[i] = M[i].clone();
         for(int i = 0; i < 3; i++){
             k = 0;
@@ -106,10 +151,10 @@ public class Cube implements Comparable<Cube>{
         }
     }
 
-    public void rotateFaceLeft(int[][] M){
-        int [][] aux = new int[M.length][];
-        int k = 0, l = 0;
-        for(int i = 0; i < M.length; i++)
+    public void rotateFaceLeft(BitSet[][] M){
+        BitSet [][] aux = new BitSet[3][];
+        int k, l = 0;
+        for(int i = 0; i < 3; i++)
             aux[i] = M[i].clone();
         for(int i = 2; i >= 0; i--){
             k = 0;
@@ -123,9 +168,9 @@ public class Cube implements Comparable<Cube>{
 
     public void rotate1(){
         for(int i = 0; i < 3; i++){
-            int aux1 = top[i][0];
-            int aux2 = back[i][0];
-            int aux3 = bottom[i][0];
+            BitSet aux1 = top[i][0];
+            BitSet aux2 = back[i][0];
+            BitSet aux3 = bottom[i][0];
             top[i][0] = front[i][0];
             back[i][0] = aux1;
             bottom[i][0] = aux2;
@@ -136,9 +181,9 @@ public class Cube implements Comparable<Cube>{
 
     public void rotate2(){
         for(int i = 0; i < 3; i++){
-            int aux1 = top[i][2];
-            int aux2 = back[i][2];
-            int aux3 = bottom[i][2];
+            BitSet aux1 = top[i][2];
+            BitSet aux2 = back[i][2];
+            BitSet aux3 = bottom[i][2];
             top[i][2] = front[i][2];
             back[i][2] = aux1;
             bottom[i][2] = aux2;
@@ -148,16 +193,16 @@ public class Cube implements Comparable<Cube>{
     }
 
     public void rotate3(){
-        int lf[] = new int[3];
-        int bt[] = new int[3];
+        BitSet lf[] = new BitSet[3];
+        BitSet bt[] = new BitSet[3];
         for(int i = 0; i < 3; i++){
             lf[i] = left[i][2];
             bt[i] = bottom[0][i];
         }
         for(int i = 0; i < 3; i++){
-            int aux1 = top[2][i];
-            int aux2 = right[i][0];
-            int aux3 = bt[i];
+            BitSet aux1 = top[2][i];
+            BitSet aux2 = right[i][0];
+            BitSet aux3 = bt[i];
             top[2][i] = lf[Math.abs(i-2)];
             right[i][0] = aux1;
             bottom[0][Math.abs(i-2)] = aux2;
@@ -168,16 +213,16 @@ public class Cube implements Comparable<Cube>{
     }
 
     public void rotate4(){
-        int lf[] = new int[3];
-        int bt[] = new int[3];
+        BitSet lf[] = new BitSet[3];
+        BitSet bt[] = new BitSet[3];
         for(int i = 0; i < 3; i++){
             lf[i] = left[i][0];
             bt[i] = bottom[2][i];
         }
         for(int i = 0; i < 3; i++){
-            int aux1 = top[0][i];
-            int aux2 = right[i][2];
-            int aux3 = bt[i];
+            BitSet aux1 = top[0][i];
+            BitSet aux2 = right[i][2];
+            BitSet aux3 = bt[i];
             top[0][i] = lf[Math.abs(i-2)];
             right[i][2] = aux1;
             bottom[2][Math.abs(i-2)] = aux2;
@@ -188,9 +233,9 @@ public class Cube implements Comparable<Cube>{
 
     public void rotate5(){
         for(int i = 0; i < 3; i++){
-            int aux1 = front[0][i];
-            int aux2 = right[0][i];
-            int aux3 = back[2][Math.abs(i-2)];
+            BitSet aux1 = front[0][i];
+            BitSet aux2 = right[0][i];
+            BitSet aux3 = back[2][Math.abs(i-2)];
             front[0][i] = left[0][i];
             right[0][i] = aux1;
             back[2][Math.abs(i-2)] = aux2;
@@ -201,9 +246,9 @@ public class Cube implements Comparable<Cube>{
 
     public void rotate6(){
         for(int i = 0; i < 3; i++){
-            int aux1 = front[2][i];
-            int aux2 = right[2][i];
-            int aux3 = back[0][Math.abs(i-2)];
+            BitSet aux1 = front[2][i];
+            BitSet aux2 = right[2][i];
+            BitSet aux3 = back[0][Math.abs(i-2)];
             front[2][i] = left[2][i];
             right[2][i] = aux1;
             back[0][Math.abs(i-2)] = aux2;
@@ -214,9 +259,9 @@ public class Cube implements Comparable<Cube>{
 
     public void rotate1P(){
         for(int i = 0; i < 3; i++){
-            int aux1 = top[i][0];
-            int aux2 = front[i][0];
-            int aux3 = bottom[i][0];
+            BitSet aux1 = top[i][0];
+            BitSet aux2 = front[i][0];
+            BitSet aux3 = bottom[i][0];
             top[i][0] = back[i][0];
             front[i][0] = aux1;
             bottom[i][0]= aux2;
@@ -227,9 +272,9 @@ public class Cube implements Comparable<Cube>{
 
     public void rotate2P(){
         for(int i = 0; i < 3; i++){
-            int aux1 = top[i][2];
-            int aux2 = front[i][2];
-            int aux3 = bottom[i][2];
+            BitSet aux1 = top[i][2];
+            BitSet aux2 = front[i][2];
+            BitSet aux3 = bottom[i][2];
             top[i][2] = back[i][2];
             front[i][2] = aux1;
             bottom[i][2]= aux2;
@@ -239,15 +284,15 @@ public class Cube implements Comparable<Cube>{
     }
 
     public void rotate3P(){
-        int rf[] = new int[3];
-        int bt[] = new int[3];
+        BitSet rf[] = new BitSet[3];
+        BitSet bt[] = new BitSet[3];
         for(int i = 0; i < 3; i++){
             rf[i] = top[2][i];
             bt[i] = bottom[0][i];
         }
         for(int i = 0; i < 3; i++){
-            int aux1 = right[i][0];
-            int aux2 = left[i][2];
+            BitSet aux1 = right[i][0];
+            BitSet aux2 = left[i][2];
             //int aux3 = rf[i];
             left[i][2] = rf[Math.abs(i-2)];
             bottom[0][i] = aux2;
@@ -258,15 +303,15 @@ public class Cube implements Comparable<Cube>{
     }
 
     public void rotate4P(){
-        int rf[] = new int[3];
-        int bt[] = new int[3];
+        BitSet rf[] = new BitSet[3];
+        BitSet bt[] = new BitSet[3];
         for(int i = 0; i < 3; i++){
             rf[i] = top[0][i];
             bt[i] = bottom[2][i];
         }
         for(int i = 0; i < 3; i++){
-            int aux1 = right[i][2];
-            int aux2 = left[i][0];
+            BitSet aux1 = right[i][2];
+            BitSet aux2 = left[i][0];
             //int aux3 = rf[i];
             left[i][0] = rf[Math.abs(i-2)];
             bottom[2][i] = aux2;
@@ -278,9 +323,9 @@ public class Cube implements Comparable<Cube>{
 
     public void rotate5P(){
         for(int i = 0; i < 3; i++){
-            int aux1 = front[0][i];
-            int aux2 = left[0][i];
-            int aux3 = back[2][Math.abs(i-2)];
+            BitSet aux1 = front[0][i];
+            BitSet aux2 = left[0][i];
+            BitSet aux3 = back[2][Math.abs(i-2)];
             front[0][i] = right[0][i];
             left[0][i] = aux1;
             back[2][Math.abs(i-2)] = aux2;
@@ -289,98 +334,11 @@ public class Cube implements Comparable<Cube>{
         rotateFaceRight(top);
     }
 
-    //rotate central vertical 1
-    public void rotateC1(){
-        for(int i = 0; i < 3; i++){
-            int aux1 = top[i][1];
-            int aux2 = back[i][1];
-            int aux3 = bottom[i][1];
-            top[i][1] = front[i][1];
-            back[i][1] = aux1;
-            bottom[i][1] = aux2;
-            front[i][1] = aux3;
-        }
-    }
-
-    //rotate central horizontal 1
-    public void rotateC2 (){
-        for(int i = 0; i < 3; i++){
-            int aux1 = front[1][i];
-            int aux2 = right[1][i];
-            int aux3 = back[1][Math.abs(i-2)];
-            front[1][i] = left[1][i];
-            right[1][i] = aux1;
-            back[1][Math.abs(i-2)] = aux2;
-            left[1][i] = aux3;
-        }
-    }
-
-    //rotate central vertical 2
-    public void rotateC3(){
-        int lf[] = new int[3];
-        int bt[] = new int[3];
-        for(int i = 0; i < 3; i++){
-            lf[i] = left[i][1];
-            bt[i] = bottom[1][i];
-        }
-        for(int i = 0; i < 3; i++){
-            int aux1 = top[1][i];
-            int aux2 = right[i][1];
-            int aux3 = bt[i];
-            top[1][i] = lf[Math.abs(i-2)];
-            right[i][1] = aux1;
-            bottom[1][Math.abs(i-2)] = aux2;
-            left[i][1] = aux3;
-        }
-    }
-
-    public void rotateC1P(){
-        for(int i = 0; i < 3; i++){
-            int aux1 = top[i][1];
-            int aux2 = front[i][1];
-            int aux3 = bottom[i][1];
-            top[i][1] = back[i][1];
-            front[i][1] = aux1;
-            bottom[i][1]= aux2;
-            back[i][1]= aux3;
-        }
-    }
-
-    public void rotateC2P(){
-        for(int i = 0; i < 3; i++){
-            int aux1 = front[1][i];
-            int aux2 = left[1][i];
-            int aux3 = back[1][Math.abs(i-2)];
-            front[1][i] = right[1][i];
-            left[1][i] = aux1;
-            back[1][Math.abs(i-2)] = aux2;
-            right[1][i] = aux3;
-        }
-    }
-
-    public void rotateC3P(){
-        int rf[] = new int[3];
-        int bt[] = new int[3];
-        for(int i = 0; i < 3; i++){
-            rf[i] = top[1][i];
-            bt[i] = bottom[1][i];
-        }
-        for(int i = 0; i < 3; i++){
-            int aux1 = right[i][1];
-            int aux2 = left[i][1];
-            //int aux3 = rf[i];
-            left[i][1] = rf[Math.abs(i-2)];
-            bottom[1][i] = aux2;
-            right[i][1] = bt[Math.abs(i-2)];
-            top[1][i] = aux1;
-        }
-    }
-
     public void rotate6P(){
         for(int i = 0; i < 3; i++){
-            int aux1 = front[2][i];
-            int aux2 = left[2][i];
-            int aux3 = back[0][Math.abs(i-2)];
+            BitSet aux1 = front[2][i];
+            BitSet aux2 = left[2][i];
+            BitSet aux3 = back[0][Math.abs(i-2)];
             front[2][i] = right[2][i];
             left[2][i] = aux1;
             back[0][Math.abs(i-2)] = aux2;
@@ -390,11 +348,11 @@ public class Cube implements Comparable<Cube>{
     }
 
     public void unorder(){
-        int r;
+        int disorderNumber = 6, r;
         ArrayList<Integer> rotations = new ArrayList<>(disorderNumber);
         System.out.println("Unordering");
         for(int i = 0; i < disorderNumber; i++) {
-            r = (int) (Math.random() * 18);
+            r = (int) (Math.random() * 12);
             rotations.add(r+1);
             switch (r) {
                 case 0:
@@ -432,24 +390,6 @@ public class Cube implements Comparable<Cube>{
                     break;
                 case 11:
                     rotate6P();
-                    break;
-                case 12:
-                    rotateC1();
-                    break;
-                case 13:
-                    rotateC2();
-                    break;
-                case 14:
-                    rotateC3();
-                    break;
-                case 15:
-                    rotateC1P();
-                    break;
-                case 16:
-                    rotateC2P();
-                    break;
-                case 17:
-                    rotateC3P();
                     break;
             }
         }
@@ -520,45 +460,11 @@ public class Cube implements Comparable<Cube>{
         return theString.toString();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Cube cube = (Cube) o;
-
-        if (!Arrays.deepEquals(front, cube.front)) return false;
-        if (!Arrays.deepEquals(back, cube.back)) return false;
-        if (!Arrays.deepEquals(top, cube.top)) return false;
-        if (!Arrays.deepEquals(bottom, cube.bottom)) return false;
-        if (!Arrays.deepEquals(left, cube.left)) return false;
-        return Arrays.deepEquals(right, cube.right);
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = Arrays.deepHashCode(front);
-        result = 31 * result + Arrays.deepHashCode(back);
-        result = 31 * result + Arrays.deepHashCode(top);
-        result = 31 * result + Arrays.deepHashCode(bottom);
-        result = 31 * result + Arrays.deepHashCode(left);
-        result = 31 * result + Arrays.deepHashCode(right);
-        return result;
-    }
-
     public void addMove(int move){
         moves.add(move);
     }
 
     public ArrayList<Integer> getMoves(){
         return moves;
-    }
-
-    public static void main(String[] args) {
-        Cube cubyto = new Cube();
-        System.out.println(cubyto);
-        cubyto.unorder();
-        System.out.println(cubyto);
     }
 }

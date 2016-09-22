@@ -80,46 +80,4 @@ public class CubeMover {
         tmp.addMove(12);
         return tmp;
     }
-
-    static Cube rotate13(Cube cube){
-        Cube tmp = new Cube(cube);
-        tmp.rotateC1();
-        tmp.addMove(13);
-        return tmp;
-    }
-
-    static Cube rotate14(Cube cube){
-        Cube tmp = new Cube(cube);
-        tmp.rotateC2();
-        tmp.addMove(14);
-        return tmp;
-    }
-
-    static Cube rotate15(Cube cube){
-        Cube tmp = new Cube(cube);
-        tmp.rotateC3();
-        tmp.addMove(15);
-        return tmp;
-    }
-
-    static Cube rotate16(Cube cube){
-        Cube tmp = new Cube(cube);
-        tmp.rotateC1P();
-        tmp.addMove(16);
-        return tmp;
-    }
-
-    static Cube rotate17(Cube cube){
-        Cube tmp = new Cube(cube);
-        tmp.rotateC2P();
-        tmp.addMove(17);
-        return tmp;
-    }
-
-    static Cube rotate18(Cube cube){
-        Cube tmp = new Cube(cube);
-        tmp.rotateC3P();
-        tmp.addMove(18);
-        return tmp;
-    }
 }
