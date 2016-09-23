@@ -123,13 +123,14 @@ public class Cube implements Comparable<Cube>{
     }
 
     public void rotateFaceRight(int w){
-        BitSet tmp;
+        BitSet tmp, tmp3;
+        tmp3 = bits.get(w, w+27);
         int k, l = 0, tmp2;
         for(int i = 0; i < 3; i++){
             k = 0;
             for(int j = 2; j >= 0; j--){
-                tmp2 = (j*9+i*3)+w;
-                tmp = bits.get(tmp2, tmp2+3);
+                tmp2 = (j*9+i*3);
+                tmp = tmp3.get(tmp2, tmp2+3);
                 tmp2 = (l*9+k*3)+w;
                 for(int n = 0; n < 3; n++)
                     bits.set(tmp2+n, tmp.get(n));
@@ -140,13 +141,14 @@ public class Cube implements Comparable<Cube>{
     }
 
     public void rotateFaceLeft(int w){
-        BitSet tmp;
+        BitSet tmp, tmp3;
+        tmp3 = bits.get(w, w+27);
         int k, l = 0, tmp2;
         for(int i = 2; i >= 0; i--){
             k = 0;
             for(int j = 0; j < 3; j++){
-                tmp2 = (j*9+i*3)+w;
-                tmp = bits.get(tmp2, tmp2+3);
+                tmp2 = (j*9+i*3);
+                tmp = tmp3.get(tmp2, tmp2+3);
                 tmp2 = (l*9+k*3)+w;
                 for(int n = 0; n < 3; n++)
                     bits.set(tmp2+n, tmp.get(n));
@@ -653,7 +655,7 @@ public class Cube implements Comparable<Cube>{
     }
 
     public void unorder(){
-        int disorderNumber = 14, r;
+        int disorderNumber = 5, r;
         ArrayList<Integer> rotations = new ArrayList<>(disorderNumber);
         System.out.println("Unordering");
         for(int i = 0; i < disorderNumber; i++) {

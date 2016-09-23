@@ -24,9 +24,9 @@ public class AuxMain {
         //tmp = CubeMover.rotate4(cube);
         //cube.rotate4();
         System.out.println(cube.isOk());
-        cube.rotate6P();
-        cube.rotate6P();
-        cube.rotate6P();
+        cube.rotate6();
+        cube.rotate4();
+        cube.rotate4P();
         cube.rotate6P();
         System.out.println(cube.isOk());
     }
