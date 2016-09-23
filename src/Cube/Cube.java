@@ -15,40 +15,90 @@ import java.util.BitSet;
 public class Cube implements Comparable<Cube>{
 
     BitSet bits;
-    private int front = 0, back = 27, top = 54, bottom = 81, left = 108, right = 135;
+    private static int front = 0, back = 27, top = 54, bottom = 81, left = 108, right = 135;
     public static BitSet okCube = new BitSet(162);
 
-    private ArrayList<Integer> moves;
+    private ArrayList<Byte> moves;
 
-//    public int heuristic(){
-//        int j, i, r = moves.size();
-//        for(int k = 0; k < 9; k++){
-//            j = k%3;
-//            i = k/3;
-//            if(front[i][j] != front[1][1])
-//                r++;
-//            if(back[i][j] != back[1][1])
-//                r++;
-//            if(left[i][j] != left[1][1])
-//                r++;
-//            if(right[i][j] != right[1][1])
-//                r++;
-//            if(bottom[i][j] != bottom[1][1])
-//                r++;
-//            if(top[i][j] != top[1][1])
-//                r++;
-//        }
-//        return r/10;
-//    }
-//
-//    @Override
-//    public int compareTo(Cube o) {
-//        return (-(o.heuristic() - heuristic()));
-//    }
+    public void unorder(){
+        int disorderNumber = 7, r;
+        ArrayList<Integer> rotations = new ArrayList<>(disorderNumber);
+        System.out.println("Unordering");
+        for(int i = 0; i < disorderNumber; i++) {
+            r = (int) (Math.random() * 12);
+            r++;
+            rotations.add(r);
+            switch (r) {
+                case 1:
+                    rotate1();
+                    break;
+                case 2:
+                    rotate2();
+                    break;
+                case 3:
+                    rotate3();
+                    break;
+                case 4:
+                    rotate4();
+                    break;
+                case 5:
+                    rotate5();
+                    break;
+                case 6:
+                    rotate6();
+                    break;
+                case 7:
+                    rotate1P();
+                    break;
+                case 8:
+                    rotate2P();
+                    break;
+                case 9:
+                    rotate3P();
+                    break;
+                case 10:
+                    rotate4P();
+                    break;
+                case 11:
+                    rotate5P();
+                    break;
+                case 12:
+                    rotate6P();
+                    break;
+            }
+        }
+        System.out.println(rotations);
+    }
+
+    public int heuristic(){
+        int j, i, tmp, r = moves.size();
+        BitSet a = bits.get(12+front, 15+front), b = bits.get(12+back, 15+back),
+        c = bits.get(12+left, 15+left), d = bits.get(12+right, 15+right), e = bits.get(12+bottom, 15+bottom),
+        f = bits.get(12+top, 15+top);
+
+        for(int k = 0; k < 9; k++){
+            j = k%3;
+            i = k/3;
+            tmp = 9*i+3*j;
+            if(!bits.get(tmp+front,tmp+3+front).equals(a))
+                r++;
+            if(!bits.get(tmp+back,tmp+3+back).equals(b))
+                r++;
+            if(!bits.get(tmp+left,tmp+3+left).equals(c))
+                r++;
+            if(!bits.get(tmp+right,tmp+3+right).equals(d))
+                r++;
+            if(!bits.get(tmp+bottom,tmp+3+bottom).equals(e))
+                r++;
+            if(!bits.get(tmp+top,tmp+3+top).equals(f))
+                r++;
+        }
+        return r/12;
+    }
 
     @Override
     public int compareTo(Cube o) {
-        return 0;
+        return (-(o.heuristic() - heuristic()));
     }
 
     public Cube() {
@@ -455,7 +505,7 @@ public class Cube implements Comparable<Cube>{
     }
 
     public void rotate5(){
-        int tmp, tmp2;
+        int tmp;
         BitSet aux1, aux2, aux3, aux4;
         for(int i = 0; i < 3; i++){
             //BitSet aux1 = front[0][i];
@@ -467,8 +517,8 @@ public class Cube implements Comparable<Cube>{
             aux2 = bits.get(tmp, tmp+3);
 
             //BitSet aux3 = back[2][Math.abs(i-2)];
-            tmp2 = Math.abs(i-2);
-            tmp = 18+tmp2*3+back;
+            tmp = Math.abs(i-2);
+            tmp = 18+tmp*3+back;
             aux3 = bits.get(tmp, tmp+3);
 
             tmp = (i*3)+left;
@@ -495,7 +545,7 @@ public class Cube implements Comparable<Cube>{
     }
 
     public void rotate6(){
-        int tmp, tmp2;
+        int tmp;
         BitSet aux1, aux2, aux3, aux4;
         for(int i = 0; i < 3; i++){
             //BitSet aux1 = front[2][i];
@@ -507,8 +557,8 @@ public class Cube implements Comparable<Cube>{
             aux2 = bits.get(tmp, tmp+3);
 
             //BitSet aux3 = back[0][Math.abs(i-2)];
-            tmp2 = Math.abs(i-2);
-            tmp = (tmp2*3)+back;
+            tmp = Math.abs(i-2);
+            tmp = tmp*3+back;
             aux3 = bits.get(tmp, tmp+3);
 
             tmp = 18+i*3+left;
@@ -654,56 +704,6 @@ public class Cube implements Comparable<Cube>{
         rotateFaceLeft(bottom);
     }
 
-    public void unorder(){
-        int disorderNumber = 5, r;
-        ArrayList<Integer> rotations = new ArrayList<>(disorderNumber);
-        System.out.println("Unordering");
-        for(int i = 0; i < disorderNumber; i++) {
-            r = (int) (Math.random() * 12);
-            r++;
-            rotations.add(r);
-            switch (r) {
-                case 1:
-                    rotate1();
-                    break;
-                case 2:
-                    rotate2();
-                    break;
-                case 3:
-                    rotate3();
-                    break;
-                case 4:
-                    rotate4();
-                    break;
-                case 5:
-                    rotate5();
-                    break;
-                case 6:
-                    rotate6();
-                    break;
-                case 7:
-                    rotate1P();
-                    break;
-                case 8:
-                    rotate2P();
-                    break;
-                case 9:
-                    rotate3P();
-                    break;
-                case 10:
-                    rotate4P();
-                    break;
-                case 11:
-                    rotate5P();
-                    break;
-                case 12:
-                    rotate6P();
-                    break;
-            }
-        }
-        System.out.println(rotations);
-    }
-
     @Override
     public String toString(){
         //StringBuilder theString = new StringBuilder();
@@ -763,11 +763,11 @@ public class Cube implements Comparable<Cube>{
         return bits.toString();
     }
 
-    public void addMove(int move){
+    public void addMove(Byte move){
         moves.add(move);
     }
 
-    public ArrayList<Integer> getMoves(){
+    public ArrayList<Byte> getMoves(){
         return moves;
     }
 }

@@ -7,7 +7,8 @@ import java.util.PriorityQueue;
 public class Searcher {
 
     public Cube root;
-    public int nodesCreated, limit;
+    public long nodesCreated;
+    public int limit;
     private LinkedList<Cube> list;
     private HashSet<Cube> visited;
     private PriorityQueue<Cube> q;
