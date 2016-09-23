@@ -1,7 +1,6 @@
 package Cube;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.BitSet;
 
 //000 -> white      010 -> green    100 -> yellow
@@ -112,7 +111,6 @@ public class Cube implements Comparable<Cube>{
         Cube cube = (Cube) o;
 
         return bits.equals(cube.bits);
-
     }
 
     @Override
@@ -122,58 +120,6 @@ public class Cube implements Comparable<Cube>{
 
     public boolean isOk() {
         return bits.equals(okCube);
-//        int j, i, I, J, K, aux1, aux2;
-//        BitSet tmp1, tmp2;
-//        for(int k = 0; k < 8; k++){
-//            j = k%3;
-//            i = k/3;
-//            K = k+1;
-//            I = K%3;
-//            J = K/3;
-//
-//            aux1 = 9*i+3*j+front;
-//            aux2 = 9*I+3*J+front;
-//            tmp1 = bits.get(aux1, aux1+3);
-//            tmp2 = bits.get(aux2, aux2+3);
-//            if(!tmp1.equals(tmp2))
-//                return false;
-//
-//            aux1 = 9*i+3*j+back;
-//            aux2 = 9*I+3*J+back;
-//            tmp1 = bits.get(aux1, aux1+3);
-//            tmp2 = bits.get(aux2, aux2+3);
-//            if(!tmp1.equals(tmp2))
-//                return false;
-//
-//            aux1 = 9*i+3*j+left;
-//            aux2 = 9*I+3*J+left;
-//            tmp1 = bits.get(aux1, aux1+3);
-//            tmp2 = bits.get(aux2, aux2+3);
-//            if(!tmp1.equals(tmp2))
-//                return false;
-//
-//            aux1 = 9*i+3*j+right;
-//            aux2 = 9*I+3*J+right;
-//            tmp1 = bits.get(aux1, aux1+3);
-//            tmp2 = bits.get(aux2, aux2+3);
-//            if(!tmp1.equals(tmp2))
-//                return false;
-//
-//            aux1 = 9*i+3*j+bottom;
-//            aux2 = 9*I+3*J+bottom;
-//            tmp1 = bits.get(aux1, aux1+3);
-//            tmp2 = bits.get(aux2, aux2+3);
-//            if(!tmp1.equals(tmp2))
-//                return false;
-//
-//            aux1 = 9*i+3*j+top;
-//            aux2 = 9*I+3*J+top;
-//            tmp1 = bits.get(aux1, aux1+3);
-//            tmp2 = bits.get(aux2, aux2+3);
-//            if(!tmp1.equals(tmp2))
-//                return false;
-//        }
-//        return true;
     }
 
     public void rotateFaceRight(int w){
@@ -186,27 +132,12 @@ public class Cube implements Comparable<Cube>{
                 tmp = bits.get(tmp2, tmp2+3);
                 tmp2 = (l*9+k*3)+w;
                 for(int n = 0; n < 3; n++)
-                    bits.set(tmp2+n, tmp.get(i));
+                    bits.set(tmp2+n, tmp.get(n));
                 k++;
             }
             l++;
         }
     }
-
-//    public void rotateFaceRight(BitSet[][] M){
-//        BitSet[][] aux = new BitSet[3][];
-//        int k, l = 0;
-//        for(int i = 0; i < 3; i++)
-//            aux[i] = M[i].clone();
-//        for(int i = 0; i < 3; i++){
-//            k = 0;
-//            for(int j = 2; j >= 0; j--){
-//                M[l][k] = aux[j][i];
-//                k++;
-//            }
-//            l++;
-//        }
-//    }
 
     public void rotateFaceLeft(int w){
         BitSet tmp;
@@ -224,21 +155,6 @@ public class Cube implements Comparable<Cube>{
             l++;
         }
     }
-
-//    public void rotateFaceLeft(BitSet[][] M){
-//        BitSet [][] aux = new BitSet[3][];
-//        int k, l = 0;
-//        for(int i = 0; i < 3; i++)
-//            aux[i] = M[i].clone();
-//        for(int i = 2; i >= 0; i--){
-//            k = 0;
-//            for(int j = 0; j < 3; j++){
-//                M[l][k] = aux[j][i];
-//                k++;
-//            }
-//            l++;
-//        }
-//    }
 
     public void rotate1(){
         int tmp;
@@ -316,205 +232,471 @@ public class Cube implements Comparable<Cube>{
         rotateFaceRight(left);
     }
 
-//    public void rotate2(){
-//        for(int i = 0; i < 3; i++){
-//            BitSet aux1 = top[i][2];
-//            BitSet aux2 = back[i][2];
-//            BitSet aux3 = bottom[i][2];
-//            top[i][2] = front[i][2];
-//            back[i][2] = aux1;
-//            bottom[i][2] = aux2;
-//            front[i][2] = aux3;
-//        }
-//        rotateFaceRight(right);
-//    }
-//
-//    public void rotate3(){
-//        BitSet lf[] = new BitSet[3];
-//        BitSet bt[] = new BitSet[3];
-//        for(int i = 0; i < 3; i++){
-//            lf[i] = left[i][2];
-//            bt[i] = bottom[0][i];
-//        }
-//        for(int i = 0; i < 3; i++){
-//            BitSet aux1 = top[2][i];
-//            BitSet aux2 = right[i][0];
-//            BitSet aux3 = bt[i];
-//            top[2][i] = lf[Math.abs(i-2)];
-//            right[i][0] = aux1;
-//            bottom[0][Math.abs(i-2)] = aux2;
-//            left[i][2] = aux3;
-//        }
-//
-//        rotateFaceRight(front);
-//    }
-//
-//    public void rotate4(){
-//        BitSet lf[] = new BitSet[3];
-//        BitSet bt[] = new BitSet[3];
-//        for(int i = 0; i < 3; i++){
-//            lf[i] = left[i][0];
-//            bt[i] = bottom[2][i];
-//        }
-//        for(int i = 0; i < 3; i++){
-//            BitSet aux1 = top[0][i];
-//            BitSet aux2 = right[i][2];
-//            BitSet aux3 = bt[i];
-//            top[0][i] = lf[Math.abs(i-2)];
-//            right[i][2] = aux1;
-//            bottom[2][Math.abs(i-2)] = aux2;
-//            left[i][0] = aux3;
-//        }
-//        rotateFaceLeft(back);
-//    }
-//
-//    public void rotate5(){
-//        for(int i = 0; i < 3; i++){
-//            BitSet aux1 = front[0][i];
-//            BitSet aux2 = right[0][i];
-//            BitSet aux3 = back[2][Math.abs(i-2)];
-//            front[0][i] = left[0][i];
-//            right[0][i] = aux1;
-//            back[2][Math.abs(i-2)] = aux2;
-//            left[0][i] = aux3;
-//        }
-//        rotateFaceLeft(top);
-//    }
-//
-//    public void rotate6(){
-//        for(int i = 0; i < 3; i++){
-//            BitSet aux1 = front[2][i];
-//            BitSet aux2 = right[2][i];
-//            BitSet aux3 = back[0][Math.abs(i-2)];
-//            front[2][i] = left[2][i];
-//            right[2][i] = aux1;
-//            back[0][Math.abs(i-2)] = aux2;
-//            left[2][i] = aux3;
-//        }
-//        rotateFaceRight(bottom);
-//    }
+    public void rotate2(){
+        int tmp;
+        BitSet aux1, aux2, aux3, aux4;
+        for(int i = 0; i < 3; i++){
+            //BitSet aux1 = top[i][2];
+            tmp = (i*9)+6+top;
+            aux1 = bits.get(tmp, tmp+3);
 
-//    public void rotate2P(){
-//        for(int i = 0; i < 3; i++){
-//            BitSet aux1 = top[i][2];
-//            BitSet aux2 = front[i][2];
-//            BitSet aux3 = bottom[i][2];
-//            top[i][2] = back[i][2];
-//            front[i][2] = aux1;
-//            bottom[i][2]= aux2;
-//            back[i][2]= aux3;
-//        }
-//        rotateFaceLeft(right);
-//    }
-//
-//    public void rotate3P(){
-//        BitSet rf[] = new BitSet[3];
-//        BitSet bt[] = new BitSet[3];
-//        for(int i = 0; i < 3; i++){
-//            rf[i] = top[2][i];
-//            bt[i] = bottom[0][i];
-//        }
-//        for(int i = 0; i < 3; i++){
-//            BitSet aux1 = right[i][0];
-//            BitSet aux2 = left[i][2];
-//            //int aux3 = rf[i];
-//            left[i][2] = rf[Math.abs(i-2)];
-//            bottom[0][i] = aux2;
-//            right[i][0] = bt[Math.abs(i-2)];
-//            top[2][i] = aux1;
-//        }
-//        rotateFaceLeft(front);
-//    }
-//
-//    public void rotate4P(){
-//        BitSet rf[] = new BitSet[3];
-//        BitSet bt[] = new BitSet[3];
-//        for(int i = 0; i < 3; i++){
-//            rf[i] = top[0][i];
-//            bt[i] = bottom[2][i];
-//        }
-//        for(int i = 0; i < 3; i++){
-//            BitSet aux1 = right[i][2];
-//            BitSet aux2 = left[i][0];
-//            //int aux3 = rf[i];
-//            left[i][0] = rf[Math.abs(i-2)];
-//            bottom[2][i] = aux2;
-//            right[i][2] = bt[Math.abs(i-2)];
-//            top[0][i] = aux1;
-//        }
-//        rotateFaceRight(back);
-//    }
-//
-//    public void rotate5P(){
-//        for(int i = 0; i < 3; i++){
-//            BitSet aux1 = front[0][i];
-//            BitSet aux2 = left[0][i];
-//            BitSet aux3 = back[2][Math.abs(i-2)];
-//            front[0][i] = right[0][i];
-//            left[0][i] = aux1;
-//            back[2][Math.abs(i-2)] = aux2;
-//            right[0][i] = aux3;
-//        }
-//        rotateFaceRight(top);
-//    }
-//
-//    public void rotate6P(){
-//        for(int i = 0; i < 3; i++){
-//            BitSet aux1 = front[2][i];
-//            BitSet aux2 = left[2][i];
-//            BitSet aux3 = back[0][Math.abs(i-2)];
-//            front[2][i] = right[2][i];
-//            left[2][i] = aux1;
-//            back[0][Math.abs(i-2)] = aux2;
-//            right[2][i] = aux3;
-//        }
-//        rotateFaceLeft(bottom);
-//    }
+            //BitSet aux2 = back[i][2];
+            tmp = (i*9)+6+back;
+            aux2 = bits.get(tmp, tmp+3);
+
+            //BitSet aux3 = bottom[i][2];
+            tmp = (i*9)+6+bottom;
+            aux3 = bits.get(tmp, tmp+3);
+
+            tmp = (i*9)+6+front;
+            aux4 = bits.get(tmp, tmp+3);
+
+            //top[i][2] = front[i][2];
+            for(int n = 0; n < 3; n++)
+                bits.set((i*9)+6+top+n, aux4.get(n));
+
+            //back[i][2] = aux1;
+            for(int n = 0; n < 3; n++)
+                bits.set((i*9)+6+back+n, aux1.get(n));
+
+            //bottom[i][2] = aux2;
+            for(int n = 0; n < 3; n++)
+                bits.set((i*9)+6+bottom+n, aux2.get(n));
+
+            //front[i][2] = aux3;
+            for(int n = 0; n < 3; n++)
+                bits.set((i*9)+6+front+n, aux3.get(n));
+        }
+        rotateFaceRight(right);
+    }
+
+    public void rotate3(){
+        BitSet lf[] = new BitSet[3];
+        BitSet bt[] = new BitSet[3];
+        int tmp;
+        BitSet aux1, aux2, aux3, aux4;
+        for(int i = 0; i < 3; i++){
+            //lf[i] = left[i][2];
+            tmp = (i*9)+6+left;
+            lf[i] = bits.get(tmp, tmp+3);
+
+            //bt[i] = bottom[0][i];
+            tmp = (i*3)+bottom;
+            bt[i] = bits.get(tmp, tmp+3);
+        }
+        for(int i = 0; i < 3; i++){
+            //BitSet aux1 = top[2][i];
+            tmp = (18+i*3)+top;
+            aux1 = bits.get(tmp, tmp+3);
+
+            //BitSet aux2 = right[i][0];
+            tmp = (i*9)+right;
+            aux2 = bits.get(tmp, tmp+3);
+
+            aux3 = bt[i];
+
+            //top[2][i] = lf[Math.abs(i-2)];
+            aux4 = lf[Math.abs(i-2)];
+            for(int n = 0; n < 3; n++)
+                bits.set(2*9+i*3+top+n, aux4.get(n));
+
+            //right[i][0] = aux1;
+            for(int n = 0; n < 3; n++)
+                bits.set(i*9+right+n, aux1.get(n));
+
+            //bottom[0][Math.abs(i-2)] = aux2;
+            tmp = Math.abs(i-2);
+            for(int n = 0; n < 3; n++)
+                bits.set(tmp*3+bottom+n, aux2.get(n));
+
+            //left[i][2] = aux3;
+            for(int n = 0; n < 3; n++)
+                bits.set(i*9+6+left+n, aux3.get(n));
+        }
+        rotateFaceRight(front);
+    }
+
+    public void rotate3P(){
+        BitSet rf[] = new BitSet[3];
+        BitSet bt[] = new BitSet[3];
+        int tmp;
+        BitSet aux1, aux2, aux3, aux4;
+        for(int i = 0; i < 3; i++){
+            //rf[i] = top[2][i];
+            tmp = 18+i*3+top;
+            rf[i] = bits.get(tmp, tmp+3);
+
+            //bt[i] = bottom[0][i];
+            tmp = i*3+bottom;
+            bt[i] = bits.get(tmp, tmp+3);
+        }
+        for(int i = 0; i < 3; i++){
+            //BitSet aux1 = right[i][0];
+            tmp = i*9+right;
+            aux1 = bits.get(tmp, tmp+3);
+
+            //BitSet aux2 = left[i][2];
+            tmp = i*9+6+left;
+            aux2 = bits.get(tmp, tmp+3);
+
+            //left[i][2] = rf[Math.abs(i-2)];
+            aux3 = rf[Math.abs(i-2)];
+            for(int n = 0; n < 3; n++)
+                bits.set(i*9+6+left+n, aux3.get(n));
+
+            //bottom[0][i] = aux2;
+            for(int n = 0; n < 3; n++)
+                bits.set(i*3+bottom+n, aux2.get(n));
+
+            //right[i][0] = bt[Math.abs(i-2)];
+            aux4 = bt[Math.abs(i-2)];
+            for(int n = 0; n < 3; n++)
+                bits.set(i*9+right+n, aux4.get(n));
+
+            //top[2][i] = aux1;
+            for(int n = 0; n < 3; n++)
+                bits.set(18+i*3+top+n, aux1.get(n));
+        }
+        rotateFaceLeft(front);
+    }
+
+    public void rotate4(){
+        BitSet lf[] = new BitSet[3];
+        BitSet bt[] = new BitSet[3];
+        int tmp;
+        BitSet aux1, aux2, aux3, aux4;
+        for(int i = 0; i < 3; i++){
+            //lf[i] = left[i][0];
+            tmp = (i*9)+left;
+            lf[i] = bits.get(tmp, tmp+3);
+
+            //bt[i] = bottom[2][i];
+            tmp = 18+i*3+bottom;
+            bt[i] = bits.get(tmp, tmp+3);
+        }
+        for(int i = 0; i < 3; i++){
+            //BitSet aux1 = top[0][i];
+            tmp = (i*3)+top;
+            aux1 = bits.get(tmp, tmp+3);
+
+            //BitSet aux2 = right[i][2];
+            tmp = i*9+6+right;
+            aux2 = bits.get(tmp, tmp+3);
+
+            //BitSet aux3 = bt[i];
+            aux3 = bt[i];
+
+            //top[0][i] = lf[Math.abs(i-2)];
+            aux4 = lf[Math.abs(i-2)];
+            for(int n = 0; n < 3; n++)
+                bits.set(i*3+top+n, aux4.get(n));
+
+            //right[i][2] = aux1;
+            for(int n = 0; n < 3; n++)
+                bits.set(i*9+6+right+n, aux1.get(n));
+
+            //bottom[2][Math.abs(i-2)] = aux2;
+            tmp = Math.abs(i-2);
+            for(int n = 0; n < 3; n++)
+                bits.set(18+tmp*3+bottom+n, aux2.get(n));
+
+            //left[i][0] = aux3;
+            for(int n = 0; n < 3; n++)
+                bits.set(i*9+left+n, aux3.get(n));
+        }
+        rotateFaceLeft(back);
+    }
+
+    public void rotate4P(){
+        BitSet rf[] = new BitSet[3];
+        BitSet bt[] = new BitSet[3];
+        int tmp;
+        BitSet aux1, aux2, aux3, aux4;
+        for(int i = 0; i < 3; i++){
+            //rf[i] = top[0][i];
+            tmp = i*3+top;
+            rf[i] = bits.get(tmp, tmp+3);
+
+            //bt[i] = bottom[2][i];
+            tmp = 18+i*3+bottom;
+            bt[i] = bits.get(tmp, tmp+3);
+        }
+        for(int i = 0; i < 3; i++){
+            //BitSet aux1 = right[i][2];
+            tmp = i*9+6+right;
+            aux1 = bits.get(tmp, tmp+3);
+
+            //BitSet aux2 = left[i][0];
+            tmp = i*9+left;
+            aux2 = bits.get(tmp, tmp+3);
+
+            //left[i][0] = rf[Math.abs(i-2)];
+            aux3 = rf[Math.abs(i-2)];
+            for(int n = 0; n < 3; n++)
+                bits.set(i*9+left+n, aux3.get(n));
+
+            //bottom[2][i] = aux2;
+            for(int n = 0; n < 3; n++)
+                bits.set(18+i*3+bottom+n, aux2.get(n));
+
+            //right[i][2] = bt[Math.abs(i-2)];
+            aux4 = bt[Math.abs(i-2)];
+            for(int n = 0; n < 3; n++)
+                bits.set(9*i+6+right+n, aux4.get(n));
+
+            //top[0][i] = aux1;
+            for(int n = 0; n < 3; n++)
+                bits.set(i*3+top+n, aux1.get(n));
+
+        }
+        rotateFaceRight(back);
+    }
+
+    public void rotate5(){
+        int tmp, tmp2;
+        BitSet aux1, aux2, aux3, aux4;
+        for(int i = 0; i < 3; i++){
+            //BitSet aux1 = front[0][i];
+            tmp = (i*3)+front;
+            aux1 = bits.get(tmp, tmp+3);
+
+            //BitSet aux2 = right[0][i];
+            tmp = (i*3)+right;
+            aux2 = bits.get(tmp, tmp+3);
+
+            //BitSet aux3 = back[2][Math.abs(i-2)];
+            tmp2 = Math.abs(i-2);
+            tmp = 18+tmp2*3+back;
+            aux3 = bits.get(tmp, tmp+3);
+
+            tmp = (i*3)+left;
+            aux4 = bits.get(tmp, tmp+3);
+
+            //front[0][i] = left[0][i];
+            for(int n = 0; n < 3; n++)
+                bits.set(i*3+front+n, aux4.get(n));
+
+            //right[0][i] = aux1;
+            for(int n = 0; n < 3; n++)
+                bits.set(i*3+right+n, aux1.get(n));
+
+            //back[2][Math.abs(i-2)] = aux2;
+            tmp = Math.abs(i-2);
+            for(int n = 0; n < 3; n++)
+                bits.set(18+tmp*3+back+n, aux2.get(n));
+
+            //left[0][i] = aux3;
+            for(int n = 0; n < 3; n++)
+                bits.set(i*3+left+n, aux3.get(n));
+        }
+        rotateFaceLeft(top);
+    }
+
+    public void rotate6(){
+        int tmp, tmp2;
+        BitSet aux1, aux2, aux3, aux4;
+        for(int i = 0; i < 3; i++){
+            //BitSet aux1 = front[2][i];
+            tmp = 18+i*3+front;
+            aux1 = bits.get(tmp, tmp+3);
+
+            //BitSet aux2 = right[2][i];
+            tmp = 18+i*3+right;
+            aux2 = bits.get(tmp, tmp+3);
+
+            //BitSet aux3 = back[0][Math.abs(i-2)];
+            tmp2 = Math.abs(i-2);
+            tmp = (tmp2*3)+back;
+            aux3 = bits.get(tmp, tmp+3);
+
+            tmp = 18+i*3+left;
+            aux4 = bits.get(tmp, tmp+3);
+
+            //front[2][i] = left[2][i];
+            for(int n = 0; n < 3; n++)
+                bits.set(18+i*3+front+n, aux4.get(n));
+
+            //right[2][i] = aux1;
+            for(int n = 0; n < 3; n++)
+                bits.set(18+i*3+right+n, aux1.get(n));
+
+            //back[0][Math.abs(i-2)] = aux2;
+            tmp = Math.abs(i-2);
+            for(int n = 0; n < 3; n++)
+                bits.set(tmp*3+back+n, aux2.get(n));
+
+            //left[2][i] = aux3;
+            for(int n = 0; n < 3; n++)
+                bits.set(18+i*3+left+n, aux3.get(n));
+        }
+        rotateFaceRight(bottom);
+    }
+
+    public void rotate2P(){
+        int tmp;
+        BitSet aux1, aux2, aux3, aux4;
+        for(int i = 0; i < 3; i++){
+            //BitSet aux1 = top[i][2];
+            tmp = i*9+6+top;
+            aux1 = bits.get(tmp, tmp+3);
+
+            //BitSet aux2 = front[i][2];
+            tmp = i*9+6+front;
+            aux2 = bits.get(tmp, tmp+3);
+
+            //BitSet aux3 = bottom[i][2];
+            tmp = i*9+6+bottom;
+            aux3 = bits.get(tmp, tmp+3);
+
+            tmp = i*9+6+back;
+            aux4 = bits.get(tmp, tmp+3);
+
+            //top[i][2] = back[i][2];
+            for(int n = 0; n < 3; n++)
+                bits.set(i*9+6+top+n, aux4.get(n));
+
+            //front[i][2] = aux1;
+            for(int n = 0; n < 3; n++)
+                bits.set(i*9+6+front+n, aux1.get(n));
+
+            //bottom[i][2]= aux2;
+            for(int n = 0; n < 3; n++)
+                bits.set(i*9+6+bottom+n, aux2.get(n));
+
+            //back[i][2]= aux3;
+            for(int n = 0; n < 3; n++)
+                bits.set(i*9+6+back+n, aux3.get(n));
+
+        }
+        rotateFaceLeft(right);
+    }
+
+    public void rotate5P(){
+        int tmp;
+        BitSet aux1, aux2, aux3, aux4;
+        for(int i = 0; i < 3; i++){
+            //BitSet aux1 = front[0][i];
+            tmp = i*3+front;
+            aux1 = bits.get(tmp, tmp+3);
+
+            //BitSet aux2 = left[0][i];
+            tmp = i*3+left;
+            aux2 = bits.get(tmp, tmp+3);
+
+            //BitSet aux3 = back[2][Math.abs(i-2)];
+            tmp = Math.abs(i-2);
+            tmp = 18+tmp*3+back;
+            aux3 = bits.get(tmp, tmp+3);
+
+            tmp = i*3+right;
+            aux4 = bits.get(tmp, tmp+3);
+
+            //front[0][i] = right[0][i];
+            for(int n = 0; n < 3; n++)
+                bits.set(i*3+front+n, aux4.get(n));
+
+            //left[0][i] = aux1;
+            for(int n = 0; n < 3; n++)
+                bits.set(i*3+left+n, aux1.get(n));
+
+            //back[2][Math.abs(i-2)] = aux2;
+            tmp = Math.abs(i-2);
+            for(int n = 0; n < 3; n++)
+                bits.set(18+tmp*3+back+n, aux2.get(n));
+
+            //right[0][i] = aux3;
+            for(int n = 0; n < 3; n++)
+                bits.set(i*3+right+n, aux3.get(n));
+        }
+        rotateFaceRight(top);
+    }
+
+    public void rotate6P(){
+        int tmp;
+        BitSet aux1, aux2, aux3, aux4;
+        for(int i = 0; i < 3; i++){
+            //BitSet aux1 = front[2][i];
+            tmp = 18+i*3+front;
+            aux1 = bits.get(tmp, tmp+3);
+
+            //BitSet aux2 = left[2][i];
+            tmp = 18+i*3+left;
+            aux2 = bits.get(tmp, tmp+3);
+
+            //BitSet aux3 = back[0][Math.abs(i-2)];
+            tmp = Math.abs(i-2);
+            tmp = tmp*3+back;
+            aux3 = bits.get(tmp, tmp+3);
+
+            tmp = 18+i*3+right;
+            aux4 = bits.get(tmp, tmp+3);
+
+            //front[2][i] = right[2][i];
+            for(int n = 0; n < 3; n++)
+                bits.set(18+i*3+front+n, aux4.get(n));
+
+            //left[2][i] = aux1;
+            for(int n = 0; n < 3; n++)
+                bits.set(18+i*3+left+n, aux1.get(n));
+
+            //back[0][Math.abs(i-2)] = aux2;
+            tmp = Math.abs(i-2);
+            for(int n = 0; n < 3; n++)
+                bits.set(tmp*3+back+n, aux2.get(n));
+
+            //right[2][i] = aux3;
+            for(int n = 0; n < 3; n++)
+                bits.set(18+i*3+right+n, aux3.get(n));
+
+        }
+        rotateFaceLeft(bottom);
+    }
 
     public void unorder(){
-        int disorderNumber = 1, r;
+        int disorderNumber = 14, r;
         ArrayList<Integer> rotations = new ArrayList<>(disorderNumber);
         System.out.println("Unordering");
         for(int i = 0; i < disorderNumber; i++) {
-            r = (int) (Math.random() * 1);
-            rotations.add(r+1);
+            r = (int) (Math.random() * 12);
+            r++;
+            rotations.add(r);
             switch (r) {
-                case 0:
+                case 1:
                     rotate1();
                     break;
-//                case 1:
-//                    rotate2();
-//                    break;
-//                case 2:
-//                    rotate3();
-//                    break;
-//                case 3:
-//                    rotate4();
-//                    break;
-//                case 4:
-//                    rotate5();
-//                    break;
-//                case 5:
-//                    rotate6();
-//                    break;
+                case 2:
+                    rotate2();
+                    break;
+                case 3:
+                    rotate3();
+                    break;
+                case 4:
+                    rotate4();
+                    break;
+                case 5:
+                    rotate5();
+                    break;
                 case 6:
+                    rotate6();
+                    break;
+                case 7:
                     rotate1P();
                     break;
-//                case 7:
-//                    rotate2P();
-//                    break;
-//                case 8:
-//                    rotate3P();
-//                    break;
-//                case 9:
-//                    rotate4P();
-//                    break;
-//                case 10:
-//                    rotate5P();
-//                    break;
-//                case 11:
-//                    rotate6P();
-//                    break;
+                case 8:
+                    rotate2P();
+                    break;
+                case 9:
+                    rotate3P();
+                    break;
+                case 10:
+                    rotate4P();
+                    break;
+                case 11:
+                    rotate5P();
+                    break;
+                case 12:
+                    rotate6P();
+                    break;
             }
         }
         System.out.println(rotations);

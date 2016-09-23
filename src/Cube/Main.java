@@ -9,8 +9,8 @@ public class Main {
         System.out.println("Cubik unordered");
         System.out.println(cube);
         System.out.println("Cubik ordered");
-        Cube done = searcher.BFS();
-        //Cube done = searcher.iterativeDFS(14);
+        //Cube done = searcher.BFS();
+        Cube done = searcher.iterativeDFS(14);
         if(done != null) {
             System.out.println("Nodes created: " + searcher.nodesCreated);
             System.out.println("Moves done: ");
