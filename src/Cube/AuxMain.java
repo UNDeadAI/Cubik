@@ -22,16 +22,16 @@ public class AuxMain {
 
         Cube cube = new Cube();
         System.out.println(cube.isOk());
-        cube.rotate6();
-        cube.rotate4();
-        cube.rotate1();
-        cube.rotate2();
-        cube.rotate5();
-        cube.rotate5P();
-        cube.rotate2P();
-        cube.rotate1P();
-        cube.rotate4P();
-        cube.rotate6P();
+        CubeMover.rotate6(cube);
+        CubeMover.rotate4(cube);
+        CubeMover.rotate1(cube);
+        CubeMover.rotate2(cube);
+        CubeMover.rotate5(cube);
+        CubeMover.rotate11(cube);
+        CubeMover.rotate8(cube);
+        CubeMover.rotate7(cube);
+        CubeMover.rotate10(cube);
+        CubeMover.rotate12(cube);
         System.out.println(cube.isOk());
     }
 }
