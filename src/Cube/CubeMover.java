@@ -16,6 +16,7 @@ public class CubeMover {
 
     static private byte b;
     public static int front = 0, back = 27, top = 54, bottom = 81, left = 108, right = 135;
+    static int disorderNumber = 2;
 
     public static void createCube(Cube cube){
         BitSet white = new BitSet(3), blue = new BitSet(3), yellow = new BitSet(3),
@@ -63,7 +64,7 @@ public class CubeMover {
     }
 
     public static void unorder(Cube cube){
-        int disorderNumber = 4, r;
+       int r;
         ArrayList<Integer> rotations = new ArrayList<>(disorderNumber);
         System.out.println("Unordering");
         for(int i = 0; i < disorderNumber; i++) {

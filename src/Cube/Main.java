@@ -9,7 +9,7 @@ public class Main {
         System.out.println("Cubik unordered");
         System.out.println(cube);
         System.out.println("Cubik ordered");
-        Cube done = searcher.BFS();
+        Cube done = searcher.bidirectionalSearch();
         //Cube done = searcher.iterativeDFS(14);
         //Cube done = searcher.theAStar();
         if(done != null) {

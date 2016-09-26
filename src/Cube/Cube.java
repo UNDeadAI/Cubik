@@ -9,6 +9,7 @@ public class Cube implements Comparable<Cube>{
     public static BitSet okCube = new BitSet(162);
     private ArrayList<Byte> moves;
 
+
     @Override
     public int compareTo(Cube o) {
         return (-(CubeMover.heuristic(o) - CubeMover.heuristic(this)));
