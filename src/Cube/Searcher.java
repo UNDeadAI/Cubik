@@ -48,35 +48,32 @@ public class Searcher {
         list.add(root);
         visited.add(root);
         while (!list.isEmpty()){
-            Cube u = list.getFirst();
+            Cube u = list.removeFirst();
             if(u.getMoves().size() == CubeMover.disorderNumber/2)
                 break;
-            list.removeFirst();
-            tmp = expandNodes(u);
-            if(tmp != null)
-                return tmp;
+                tmp = expandNodes(u);
+                if (tmp != null)
+                    return tmp;
         }
-        frontier = new HashSet<>();
-        for(Cube x:list){
-            frontier.add(x);
-        }
-        for(Cube x:frontier){
-            System.out.println(x);
-        }
-        list2 = new LinkedList<>();
-        visited2 = new HashSet<>();
-        list2.add(goal);
-        visited2.add(goal);
-        while(!list2.isEmpty()){
-            Cube u = list2.removeFirst();
+        frontier = new HashSet<>(list);
+        //for(Cube x:list)
+            //frontier.add(x);
+        //list2 = new LinkedList<>(list);
+        //visited2 = new HashSet<>(visited);
+        list = new LinkedList<>();
+        //visited = new HashSet<>();
+        list.add(goal);
+        visited.add(goal);
+        while(!list.isEmpty()){
+            Cube u = list.removeFirst();
             for(Cube x:frontier){
                 if(u.equals(x)){
-                    return u;
+                    for(Byte b : u.getMoves())
+                        x.addMove(b);
+                    return x;
                 }
             }
-            tmp = expandNodes(u);
-            if(tmp != null)
-                return tmp;
+            expandNodes2(u);
         }
         return null;
     }
@@ -90,7 +87,7 @@ public class Searcher {
         q.add(root);
         while (!q.isEmpty()){
             tmp = q.poll();;
-            tmp = expandNodes2(tmp);
+            tmp = expandNodes3(tmp);
             if(tmp != null)
                 return tmp;
         }
@@ -107,26 +104,6 @@ public class Searcher {
             tmp = limitedDFS(root);
             if(tmp != null)
                 return tmp;
-        }
-        return null;
-    }
-
-    public Cube iterativeDFSSavingLastLevel(int limit2){
-        nodesCreated = 0;
-        visited = new HashSet<>();
-        list = new LinkedList<>();
-        LinkedList<Cube> tmp2;
-        if(root.isOk())
-            return root;
-        list.add(root);
-        for(int i = 1; i <= limit2; i++){
-            limit = i;
-            tmp2 = new LinkedList<>(list);
-            while (!tmp2.isEmpty()){
-                tmp = limitedDFS(tmp2.removeLast());
-                if(tmp != null)
-                    return tmp;
-            }
         }
         return null;
     }
@@ -361,7 +338,7 @@ public class Searcher {
         return null;
     }
 
-    private Cube expandNodes2(Cube u){
+    private void expandNodes2(Cube u){
         tmp = CubeMover.rotate1(u);
         if(!visited.contains(tmp)) {
             list.add(tmp);
@@ -453,6 +430,116 @@ public class Searcher {
 
         if(!visited.contains(tmp)) {
             list.add(tmp);
+            visited.add(tmp);
+            nodesCreated++;
+        }
+    }
+
+    private Cube expandNodes3(Cube u){
+        tmp = CubeMover.rotate1(u);
+        if (tmp.isOk())
+            return tmp;
+        if(!visited.contains(tmp)) {
+            q.add(tmp);
+            visited.add(tmp);
+            nodesCreated++;
+        }
+
+        tmp = CubeMover.rotate2(u);
+        if (tmp.isOk())
+            return tmp;
+        if(!visited.contains(tmp)) {
+            q.add(tmp);
+            visited.add(tmp);
+            nodesCreated++;
+        }
+
+        tmp = CubeMover.rotate3(u);
+        if (tmp.isOk())
+            return tmp;
+        if(!visited.contains(tmp)) {
+            q.add(tmp);
+            visited.add(tmp);
+            nodesCreated++;
+        }
+
+        tmp = CubeMover.rotate4(u);
+        if (tmp.isOk())
+            return tmp;
+        if(!visited.contains(tmp)) {
+            q.add(tmp);
+            visited.add(tmp);
+            nodesCreated++;
+        }
+
+        tmp = CubeMover.rotate5(u);
+        if (tmp.isOk())
+            return tmp;
+        if(!visited.contains(tmp)) {
+            q.add(tmp);
+            visited.add(tmp);
+            nodesCreated++;
+        }
+
+        tmp = CubeMover.rotate6(u);
+        if (tmp.isOk())
+            return tmp;
+        if(!visited.contains(tmp)) {
+            q.add(tmp);
+            visited.add(tmp);
+            nodesCreated++;
+        }
+
+        tmp = CubeMover.rotate7(u);
+        if (tmp.isOk())
+            return tmp;
+        if(!visited.contains(tmp)) {
+            q.add(tmp);
+            visited.add(tmp);
+            nodesCreated++;
+        }
+
+        tmp = CubeMover.rotate8(u);
+        if (tmp.isOk())
+            return tmp;
+        if(!visited.contains(tmp)) {
+            q.add(tmp);
+            visited.add(tmp);
+            nodesCreated++;
+        }
+
+        tmp = CubeMover.rotate9(u);
+        if (tmp.isOk())
+            return tmp;
+        if(!visited.contains(tmp)) {
+            q.add(tmp);
+            visited.add(tmp);
+            nodesCreated++;
+        }
+
+        tmp = CubeMover.rotate10(u);
+        if (tmp.isOk())
+            return tmp;
+        if(!visited.contains(tmp)) {
+            q.add(tmp);
+            visited.add(tmp);
+            nodesCreated++;
+        }
+
+        tmp = CubeMover.rotate11(u);
+        if (tmp.isOk())
+            return tmp;
+        if(!visited.contains(tmp)) {
+            q.add(tmp);
+            visited.add(tmp);
+            nodesCreated++;
+        }
+
+        tmp = CubeMover.rotate12(u);
+        if (tmp.isOk())
+            return tmp;
+        if(!visited.contains(tmp)) {
+            q.add(tmp);
             visited.add(tmp);
             nodesCreated++;
         }
